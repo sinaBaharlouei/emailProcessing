@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+<!--
+---- Clean html template by http://WpFreeware.com
+---- This is the main file (index.html).
+---- You are allowed to change anything you like. Find out more Awesome Templates @ wpfreeware.com
+---- Read License-readme.txt file to learn more.
+-->
+
+<head>
+    <title>Welcome to my site</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Oswald Font -->
+    <link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/tooltipster.css') }}"/>
+    <!-- home slider-->
+    <link href="{{ asset('css/pgwslider.css') }}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet" media="screen">
+    <link href="{{ asset('css/registerCSS.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/responsive.css') }}" rel="stylesheet" media="screen">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- 33 KB -->
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
+    <!-- 3 KB -->
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
+    <!-- 16 KB -->
+</head>
+
+<body>
+
+<section id="header_area">
+    <div class="wrapper header">
+        <div class="clearfix header_top">
+            <div class="clearfix logo floatright">
+                <a href=""><h1><span>تیتر</span>سایت</h1></a>
+            </div>
+        </div>
+        <div class="header_bottom">
+            <nav>
+                <ul id="nav" class="floatright">
+                    <li><a href="">ارتباط با ما</a></li>
+                    <li><a href="">نظر دهی</a></li>
+                    <li><a href="">درباره ما</a></li>
+                    <li><a href="">صفحه اصلی</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<section id="content_area">
+    <div class="clearfix wrapper main_content_area">
+        <form action="index.html" method="post" class="form-class">
+
+
+            <fieldset style="direction:rtl;">
+                <legend><span class="number">*</span>ثبت نام به عنوان کاربر سازمانی</legend>
+                <label for="mail">ایمیل:</label>
+                <input type="email" id="mail" name="user_email">
+                <label for="name">نام و نام خانوادگی</label>
+                <input type="text" id="name" name="user_name">
+                <label for="sex">جنسیت</label>
+                <select id="sex">
+                    <option value="men">مرد</option>
+                    <option value="women">زن</option>
+                </select>
+
+                <label for="password">کلمه عبور</label>
+                <input type="password" id="password" name="user_password">
+
+                <label for="password">تلفن همراه</label>
+                <input type="text" id="phone_number" name="user_phone_number">
+
+            </fieldset>
+
+            <button type="submit">ثبت نام</button>
+        </form>
+
+        <form action="{{ path('user_register') }}" method="post" class="form-class">
+
+            <fieldset style="direction:rtl;">
+                <legend><span class="number">*</span>ثبت نام به عنوان کاربر عادی</legend>
+                <label for="mail">ایمیل:</label>
+                <input type="email" id="mail" name="email">
+                <label for="name">نام و نام خانوادگی</label>
+                <input type="text" id="name" name="name">
+
+                <label for="password">کلمه عبور</label>
+                <input type="password" id="password" name="password">
+
+                <label for="password">تلفن همراه</label>
+                <input type="text" id="phone_number" name="phone">
+
+            </fieldset>
+
+            <button type="submit">ثبت نام</button>
+        </form>
+
+    </div>
+</section>
+
+<section id="footer_top_area">
+    <div class="clearfix wrapper footer_top">
+        <div class="clearfix footer_top_container">
+            <div class="clearfix single_footer_top floatleft">
+                <h2>نظرات کاربران</h2>
+
+                <p>مطالب مرتبط به این قسمت</p>
+            </div>
+            <div class="clearfix single_footer_top floatleft">
+                <h2>مطالب اخیر</h2>
+
+                <p>توضیحات در این قسمت قرار میگیرد</p>
+            </div>
+            <div class="clearfix single_footer_top floatleft">
+                <h2>لینک های مفید</h2>
+                <ul>
+                    <li><a href="">لینک های مرتبط</a></li>
+                    <li><a href="">لینک های مرتبط</a></li>
+                    <li><a href="">لینک های مرتبط</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="footer_bottom_area">
+    <div class="clearfix wrapper footer_bottom">
+        <div class="clearfix copyright floatleft">
+            <p> تمامی حقوق محفوظ است</p>
+        </div>
+        <div class="clearfix social floatright">
+            <ul>
+                <li><a class="tooltip" title="Facebook" href=""><i class="fa fa-facebook-square"></i></a></li>
+                <li><a class="tooltip" title="Twitter" href=""><i class="fa fa-twitter-square"></i></a></li>
+                <li><a class="tooltip" title="Google+" href=""><i class="fa fa-google-plus-square"></i></a></li>
+                <li><a class="tooltip" title="LinkedIn" href=""><i class="fa fa-linkedin-square"></i></a></li>
+                <li><a class="tooltip" title="tumblr" href=""><i class="fa fa-tumblr-square"></i></a></li>
+                <li><a class="tooltip" title="Pinterest" href=""><i class="fa fa-pinterest-square"></i></a></li>
+                <li><a class="tooltip" title="RSS Feed" href=""><i class="fa fa-rss-square"></i></a></li>
+                <li><a class="tooltip" title="Sitemap" href=""><i class="fa fa-sitemap"></i> </a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.0.min.js"></script>
+<script type="text/javascript" src="{{ asset('js/jquery.tooltipster.min.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.tooltip').tooltipster();
+    });
+</script>
+<script type="text/javascript" src="{{ asset('js/selectnav.min.js') }}"></script>
+<script type="text/javascript">
+    selectnav('nav', {
+        label: '-Navigation-',
+        nested: true,
+        indent: '-'
+    });
+</script>
+<script src="{{ asset('js/pgwslider.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.pgwSlider').pgwSlider({
+
+            intervalDuration: 5000
+
+        });
+    });
+</script>
+<script type="text/javascript" src="{{ asset('js/placeholder_support_IE.js') }}"></script>
+
+<!--
+---- Clean html template by http://WpFreeware.com
+---- This is the main file (index.html).
+---- You are allowed to change anything you like. Find out more Awesome Templates @ wpfreeware.com
+---- Read License-readme.txt file to learn more.
+-->
+
+</body>
+</html>

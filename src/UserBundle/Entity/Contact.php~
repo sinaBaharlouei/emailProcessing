@@ -1,0 +1,56 @@
+<?php
+namespace UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use UserBundle\Entity\Constants\RoleConstants;
+use UserBundle\Entity\Constants\UserConstants;
+use UserBundle\Entity\User;
+
+/**
+ * UserBundle\Entity\Contact
+ *
+ * @ORM\Table(name="Contact")
+ * @ORM\Entity(repositoryClass="UserBundle\Entity\Repository\ContactRepository")
+ */
+class Contact implements \JsonSerializable
+{
+
+	/**
+	 * @ORM\Id
+	 * @ORM\ManyToOne(targetEntity="User", inversedBy="contacts")
+	 * @ORM\JoinColumn(name="contact_id1", referencedColumnName="id", nullable=false)
+	 */
+	protected $contact1;
+
+	/**
+	 * @ORM\Id
+	 * @ORM\ManyToOne(targetEntity="User", inversedBy="inContacts")
+	 * @ORM\JoinColumn(name="contact_id2", referencedColumnName="id", nullable=false)
+	 */
+	protected $contact2;
+
+	/**
+	 * @ORM\Column(name="is_know", type="integer", nullable=false)
+	 */
+	private $isKnow = 0;
+
+	/**
+	 * @ORM\Column(name="is_accept", type="integer", nullable=false)
+	 */
+	private $isAccept = 0;
+
+	/**
+	 * (PHP 5 &gt;= 5.4.0)<br/>
+	 * Specify data which should be serialized to JSON
+	 * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+	 * @return mixed data which can be serialized by <b>json_encode</b>,
+	 * which is a value of any type other than a resource.
+	 */
+	function jsonSerialize()
+	{
+		// TODO: Implement jsonSerialize() method.
+	}
+	
+}

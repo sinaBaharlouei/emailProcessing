@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IE Project 4</title>
+    <link rel="stylesheet" type="text/css" href={{ asset('Stylesheets/Profile.css') }}>
+    <link rel="stylesheet" type="text/css" href={{ asset('Stylesheets/Users.css') }}>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+
+    {% for user in users %}
+        {% if me.id != user.id %}
+        <div class="person">
+            <img src=""><br>
+            <span>First Name: </span>
+            <span >{{ user.name }}</span><br>
+            <span>Last Name: </span>
+            <span>{{ user.lastName }}</span><br>
+            <span>Email: </span>
+            <span class="email">{{ user.email }}</span><br>
+            <a href={{  path( 'profile_add_contact', { 'user_id': user.id }) }}>
+                <button type="button" class="add">Add to my contacts</button>
+            </a>
+        </div>
+        {% endif %}
+    {% endfor %}
+</body>
+</html>
+    <script src={{ asset('js/jquery-1.12.0.js') }}></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $.ajax({
+                type:"GET",
+                url : {{ path('profile_get_users') }},
+                dataType : "xml",
+                cache : false ,
+                async : false ,
+                success : function (xml) {
+                    var data=$(xml).children('users');
+
+                    contacts.children('user').each(function(){
+                        var person='<div class="person"><img src="'+$(this).children('img').text()+'"><br><span>First Name: </span><span >'+$(this).children('first').text()+'</span><br><span>Last Name: </span><span>'+$(this).children('last').text()+'</span><br><span>Email: </span><span>'+$(this).children('username').text()+'</span><br><button type="button">Add to my contacts</button></div>';
+                        $('body').append(person);
+                    });
+                    $(document).on('click','.add',function(){
+                        var x=$(this);
+                        var username=x.parent().children("email").text();
+                        $.ajax({
+                            method: 'get',
+                            url: '../server.php?add='+username,
+                            success: function(data){
+                                 alert("successfuly added to your contacts.");
+                                 x.css('background-color', 'green');
+                            },error: function(jqXHR, textStatus, errorThrown)
+                            {
+                             // Handle errors here
+                             console.log('ERRORS: ' + textStatus);
+                             console.log(jqXHR.responseText);
+                             // STOP LOADING SPINNER
+                             }
+                            });
+                    });
+                },error: function(jqXHR, textStatus, errorThrown)
+                         {
+                         // Handle errors here
+                         console.log('ERRORS: ' + textStatus);
+                         console.log(jqXHR.responseText);
+                         // STOP LOADING SPINNER
+                         }
+            });
+
+    
+    </script>

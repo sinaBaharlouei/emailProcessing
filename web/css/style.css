@@ -1,0 +1,272 @@
+@font-face {
+    font-family: 'Far Koodak';
+
+    src: url("../fonts/nazanin.ttf") format("truetype");
+    font-weight: normal;
+
+}
+p,h1,h2,h3,h4,h5,h6,div{
+    font-family: "Far Koodak";
+}
+body,html{
+    background: rgb(239,239,239);
+}
+.bot-left {
+    position: relative;
+}
+.bot-left:before, .bot-left:after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0px;
+}
+.bot-left:before {
+    top: -3px;
+    width: 0px;
+    background-image: linear-gradient(to right, #fff, rgb(228,215,85), #fff);
+    background-image: -webkit-linear-gradient(left, #fff, rgb(228,215,85), #fff);
+    background-image: -moz-linear-gradient(left, #fff, rgb(228,215,85), #fff);
+    background-image: -o-linear-gradient(left, #fff, rgb(228,215,85), #fff);
+}
+.bot-left:after {
+    right: 0px;
+    height: 3px;
+    background-image: linear-gradient(to right, #fff, rgb(228,215,85), #fff);
+    background-image: -webkit-linear-gradient(left, #fff, rgb(228,215,85), #fff);
+    background-image: -moz-linear-gradient(left, #fff, rgb(228,215,85), #fff);
+    background-image: -o-linear-gradient(left, #fff, rgb(228,215,85), #fff);
+}
+.bot-footer {
+    position: relative;
+}
+.bot-footer:before, .bot-footer:after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.bot-footer:before {
+    top: -3px;
+    width: 0px;
+    background-image: linear-gradient(to right, #fff, rgb(228,215,85), #fff);
+    background-image: -webkit-linear-gradient(left, #fff, rgb(228,215,85), #fff);
+    background-image: -moz-linear-gradient(left, #fff, rgb(228,215,85), #fff);
+    background-image: -o-linear-gradient(left, #fff, rgb(228,215,85), #fff);
+}
+.bot-footer:after {
+    right: 0px;
+    height: 3px;
+    background-image: linear-gradient(to right, #fff, rgb(228,215,85), #fff);
+    background-image: -webkit-linear-gradient(left, #fff, rgb(228,215,85), #fff);
+    background-image: -moz-linear-gradient(left, #fff, rgb(228,215,85), #fff);
+    background-image: -o-linear-gradient(left, #fff, rgb(228,215,85), #fff);
+}
+footer{
+    background: rgb(239,239,239);
+}
+.site-header{
+    background: rgb(239,239,239);
+    font-size: 30pt;
+    letter-spacing: 30px;
+    padding: 20px;
+}
+.site-header1{
+    color: rgb(7,180,65);
+}
+.site-header2{
+    color: rgb(240,201,22);
+}
+/* CSS used here will be applied after bootstrap.css */
+.carousel {
+    margin-top: 20px;
+}
+.item .thumb {
+    width: 25%;
+    cursor: pointer;
+    float: left;
+}
+.item .thumb img {
+    width: 100%;
+    margin: 2px;
+}
+.item img {
+    width: 100%;
+}
+.links {
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+.links a{
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-bottom: solid 2px green;
+}
+.space{
+    height: 50px;
+}
+.dropdown{
+    margin-top: 20px;
+    background: rgb(239,239,239);
+}
+.site-btn{
+    margin-top: 20px;
+    background: rgb(239,239,239);
+    border-radius: 10px;
+    padding: 10px;
+}
+.site-lst{
+    margin-top: 20px;
+    background: rgb(239,239,239);
+    border-radius: 10px;
+    padding: 5px;
+}
+.prize{
+    margin-top: 15px;
+    border: 1px solid green;
+    border-radius: 10px;
+}
+.prize-first{
+    font-size: 30pt;
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+.prize-second{
+    font-size: 30pt;
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+.main-container{
+    background: #fff;
+}
+/* Login & Register */
+body {
+    padding-top: 90px;
+}
+.panel-login {
+    border-color: #ccc;
+    -webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
+}
+.panel-login>.panel-heading {
+    color: #00415d;
+    background-color: #fff;
+    border-color: #fff;
+    text-align:center;
+}
+.panel-login>.panel-heading a{
+    text-decoration: none;
+    color: #666;
+    font-weight: bold;
+    font-size: 15px;
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+}
+.panel-login>.panel-heading a.active{
+    color: #029f5b;
+    font-size: 18px;
+}
+.panel-login>.panel-heading hr{
+    margin-top: 10px;
+    margin-bottom: 0px;
+    clear: both;
+    border: 0;
+    height: 1px;
+    background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0));
+    background-image: -moz-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+    background-image: -ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+    background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+}
+.panel-login input[type="text"],.panel-login input[type="email"],.panel-login input[type="password"] {
+    height: 45px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+}
+.panel-login input:hover,
+.panel-login input:focus {
+    outline:none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-color: #ccc;
+}
+.btn-login {
+    background-color: #59B2E0;
+    outline: none;
+    color: #fff;
+    font-size: 16px;
+    height: auto;
+    font-weight: normal;
+    padding: 14px 0;
+    text-transform: uppercase;
+    border-color: #59B2E6;
+}
+.btn-login:hover,
+.btn-login:focus {
+    color: #fff;
+    background-color: #53A3CD;
+    border-color: #53A3CD;
+}
+.forgot-password {
+    text-decoration: underline;
+    color: #888;
+}
+.forgot-password:hover,
+.forgot-password:focus {
+    text-decoration: underline;
+    color: #666;
+}
+
+.btn-register {
+    background-color: #1CB94E;
+    outline: none;
+    color: #fff;
+    font-size: 16px;
+    height: auto;
+    font-weight: normal;
+    padding: 14px 0;
+    text-transform: uppercase;
+    border-color: #1CB94A;
+}
+.btn-register:hover,
+.btn-register:focus {
+    color: #fff;
+    background-color: #1CA347;
+    border-color: #1CA347;
+}
+/**Graph */
+#graphC{
+    width: 65%;
+    height: 500px;
+    padding: 0;
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+}
+#resultGraph{
+    height: 500px;
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    margin-left: 15px;
+
+}
+.itemUser {
+    margin: 8px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid rgb(234, 220, 80);
+    min-height: 100px;
+}
+.itemUserEach{
+    display: inline-block;
+    border-right: 1px solid rebeccapurple;
+}
+.inline{
+    display: inline-block;
+}
