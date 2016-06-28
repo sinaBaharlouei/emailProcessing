@@ -300,15 +300,14 @@ class ProfileController extends BaseController
     public function composeEmailAction(Request $request)
     {
         $sender = $this->getUser();
-        $reciever_email = $this->required('to');
+        $receiver_email = $this->required('to');
 
         $em = $this->getDoctrine()->getEntityManager();
         $userRepository = $em->getRepository("UserBundle:User");
-        $reciever = $userRepository->  findOneBy( array('email' => $reciever_email));
-
-
-
-
+        $receiver = $userRepository->findOneBy
+		(
+			array('email' => $receiver_email)
+		);
 
 
         $date = new \DateTime();
@@ -319,7 +318,7 @@ class ProfileController extends BaseController
 
         $email = new Email();
         $email->setSender($sender);
-        $email->setReceiver( $reciever);
+        $email->setReceiver( $receiver);
         $email->setTitle($subject);
         $email->setText($text);
         $email->setIsRead(0);
