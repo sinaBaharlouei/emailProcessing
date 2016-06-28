@@ -271,4 +271,22 @@ class ProfileController extends BaseController
 		exit();
 	}
 
+
+    /**
+     * @Route(path="/compose", name="profile_compose")
+     * @Template
+     * @param Request $request
+     * @return array
+     */
+    public function composeAction(Request $request)
+    {
+        $user = $this->getUser();
+        return $this->render(
+            '@User/Profile/ComposeEmail.html.twig',
+            array(
+                'user' => $user
+            )
+        );
+    }
+
 }

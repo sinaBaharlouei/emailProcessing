@@ -492,4 +492,103 @@ class User implements AdvancedUserInterface, \JsonSerializable
     {
         return $this->receivedEmails;
     }
+
+    /**
+     * Add contacts
+     *
+     * @param \UserBundle\Entity\Contact $contacts
+     * @return User
+     */
+    public function addContact(\UserBundle\Entity\Contact $contacts)
+    {
+        $this->contacts[] = $contacts;
+
+        return $this;
+    }
+
+    /**
+     * Remove contacts
+     *
+     * @param \UserBundle\Entity\Contact $contacts
+     */
+    public function removeContact(\UserBundle\Entity\Contact $contacts)
+    {
+        $this->contacts->removeElement($contacts);
+    }
+
+    /**
+     * Get contacts
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getContacts()
+    {
+        return $this->contacts;
+    }
+
+    /**
+     * Add inContacts
+     *
+     * @param \UserBundle\Entity\Contact $inContacts
+     * @return User
+     */
+    public function addInContact(\UserBundle\Entity\Contact $inContacts)
+    {
+        $this->inContacts[] = $inContacts;
+
+        return $this;
+    }
+
+    /**
+     * Remove inContacts
+     *
+     * @param \UserBundle\Entity\Contact $inContacts
+     */
+    public function removeInContact(\UserBundle\Entity\Contact $inContacts)
+    {
+        $this->inContacts->removeElement($inContacts);
+    }
+
+    /**
+     * Get inContacts
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getInContacts()
+    {
+        return $this->inContacts;
+    }
+
+    /**
+     * Add categories
+     *
+     * @param \UserBundle\Entity\Category $categories
+     * @return User
+     */
+    public function addCategory(\UserBundle\Entity\Category $categories)
+    {
+        $this->categories[] = $categories;
+
+        return $this;
+    }
+
+    /**
+     * Remove categories
+     *
+     * @param \UserBundle\Entity\Category $categories
+     */
+    public function removeCategory(\UserBundle\Entity\Category $categories)
+    {
+        $this->categories->removeElement($categories);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
 }
