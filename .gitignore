@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Created by .ignore support plugin (hsz.mobi)
 app/cache/
 vendor/
 .idea/
+=======
+app/cache/
+>>>>>>> 3fe9990508ab17c364ca8931e0451909952fd1d2
