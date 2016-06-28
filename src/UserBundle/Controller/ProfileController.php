@@ -19,6 +19,7 @@ use Symfony\Component\Serializer\Tests\Model;
 use UserBundle\Entity\Constants\RoleConstants;
 use UserBundle\Entity\Constants\UserConstants;
 use UserBundle\Entity\Contact;
+use UserBundle\Entity\Email;
 use UserBundle\Entity\User;
 
 /**
@@ -288,5 +289,55 @@ class ProfileController extends BaseController
             )
         );
     }
+
+
+    /**
+     * @Route(path="/composeEmail", name="profile_compose_email")
+     * @Template
+     * @param Request $request
+     * @return array
+     */
+    public function composeEmailAction(Request $request)
+    {
+        $sender = $this->getUser();
+        $reciever_email = $this->required('to');
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $userRepository = $em->getRepository("UserBundle:User");
+        $reciever = $userRepository->  findOneBy( array('email' => $reciever_email));
+
+
+
+
+
+
+        $date = new \DateTime();
+
+
+        $subject = $this->required('subject');
+        $text = $this-> required('text');
+
+        $email = new Email();
+        $email->setSender($sender);
+        $email->setReceiver( $reciever);
+        $email->setTitle($subject);
+        $email->setText($text);
+        $email->setIsRead(0);
+        $email->setCreatedAt($date);
+        $email->setIsSpam(0);
+
+        $em->persist($email);
+        $em->flush();
+
+        return $this->redirectToRoute(
+            'profile_inbox',
+            array(
+                'message' => "Messege sent."
+            )
+        );
+    }
+
+
+
 
 }
