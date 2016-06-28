@@ -308,9 +308,6 @@ class ProfileController extends BaseController
 
 
 
-
-
-
         $date = new \DateTime();
 
 
