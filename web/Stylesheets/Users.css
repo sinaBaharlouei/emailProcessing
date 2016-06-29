@@ -32,3 +32,16 @@ body {
     border: 7px solid lightgray;
 
 }
+.options {
+    text-decoration: none;
+    width: 10%;
+    height: 5%;
+    border: medium;
+    float: right;
+
+
+}
+.options:hover {
+    color: darkblue;
+    font-weight: 600;
+}

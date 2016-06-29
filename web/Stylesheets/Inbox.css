@@ -78,3 +78,31 @@ body {
     text-align:center;
     padding:5px;
 }
+.name {
+    color: white;
+    text-decoration: none;
+
+}
+
+#logout{
+    float: right;
+    margin-top: -3%;
+    margin-right: 2%;
+}
+#name_header {
+    float: left;
+    margin-left: 4%;
+    margin-top: -3%;
+}
+#namename:hover {
+    color: deeppink;
+
+}
+#logoutout:hover {
+
+    color: deeppink;
+
+}
+#comp {
+    text-decoration:none;
+}
