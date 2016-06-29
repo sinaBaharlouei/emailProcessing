@@ -19,10 +19,27 @@
                     var data = $(xml).children('data');
                     var contacts = data.children('contacts');
 
-                    var it = '<img src="' + data.children('img').text() + '"><br><span>First Name: </span><sapn >' + data.children('first').text() + '</span><br><span>Last Name: </span><span>' + data.children('last').text() + '</span><br><span>Email: </span><span>' + data.children('username').text() + '</span>';
+                    var it = '<div class="user">' +
+                            '<img src="' + data.children('img').text()
+                            + '"><br><span>First Name: </span><sapn >'
+                            + data.children('first').text()
+                            + '</span><br><span>Last Name: </span><span>'
+                            + data.children('last').text()
+                            + '</span><br><span>Email: </span><span>'
+                            + data.children('username').text()
+                            + '</span>' + '</div>';
+                    $("#contacts").append(it);
                     contacts.children('contact').each(function () {
-                        var person = '<div class="person"><img src="' + $(this).children('img').text() + '"><br><span>First Name: </span><span >' + $(this).children('first').text() + '</span><br><span>Last Name: </span><span>' + $(this).children('last').text() + '</span><br><span>Email: </span><span>' + $(this).children('username').text() + '</span><br></div>';
-                        $("#contacts").append(it).append(person);
+                        var person = '<div class="person"><img src="'
+                                + $(this).children('img').text()
+                                + '"><br><span>First Name: </span><span >'
+                                + $(this).children('first').text()
+                                + '</span><br><span>Last Name: </span><span>'
+                                + $(this).children('last').text()
+                                + '</span><br><span>Email: </span><span>'
+                                + $(this).children('username').text()
+                                + '</span><br></div>';
+                        $("#contacts").append(person);
                     });
                 }, error: function (jqXHR, textStatus, errorThrown) {
                     // Handle errors here
@@ -38,6 +55,8 @@
 
 </head>
 <body>
+<a class="options" href={{ path('profile_users') }}>Add contacts</a> </br></br>
+<a  class="options" href={{ path('profile_inbox') }}>Inbox</a>
 <div id="data">
     <!--<img src=""><br>
     <span>First Name: </span>
@@ -86,6 +105,6 @@
         <span>hasan@e.ir</span><br>
     </div>!-->
 </div>
-<a href={{ path('profile_users') }}>Add contacts</a>
+
 </body>
 </html>
