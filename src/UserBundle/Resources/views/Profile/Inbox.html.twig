@@ -60,10 +60,11 @@
                 success : function (xml) {
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
-                        var email='<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
-                        email+='</div><div class="subject">'+$(this).children("subject").text();
+                        // i know that there should be an id tag in xml but before that i need to pass varable $this as a parameter which is not posible
+                        var email='<a id="emailLink" href={{ path('profile_read', { 'emailId': $(this).children("id").text() }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        email+='</div><div class="subject">'+$(this) .children("subject").text();
                         email+='</div><div class="text">'+$(this).children("text").text();
-                        email+='</div><div class="date">'+$(this).children("date").text()+'</div></div>';
+                        email+='</div><div class="date">'+$(this).children("date").text()+'</div></div>'+'</a>';
                         $("#mails").append(email);
                         if($(this).attr("read")!==undefined){//the email has been read
                             $("mails").children(":last").css('background-color','green');
@@ -73,8 +74,10 @@
                             $("mails").children(":last").css('background-color','white');
                         }
                     });
+
                     $(document).on('click','.eachMail',function(){
-                        window.location="../server.php?email=true & from="+$(this).children(".from").text()+"& date="+$(this).children(".date").text();
+                      //  window.location="ReadEmail.html.twig?email=true & from="+$(this).children(".from").text()+"& date="+$(this).children(".date").text();
+
                     });
                 },error: function(jqXHR, textStatus, errorThrown)
                          {
@@ -83,6 +86,7 @@
                          console.log(jqXHR.responseText);
                          // STOP LOADING SPINNER
                          }
+
             });
 
             $(document).on('click','#refresh',function(){
