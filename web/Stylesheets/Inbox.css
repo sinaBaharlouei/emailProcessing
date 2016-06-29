@@ -83,7 +83,9 @@ body {
     text-decoration: none;
 
 }
-
+#emailLink {
+    text-decoration:none;
+}
 #logout{
     float: right;
     margin-top: -3%;
