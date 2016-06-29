@@ -5,13 +5,13 @@ body {
 	 border-radius: 25px;
 }
 #container {
-    width: 810px;
+    width: 940px;
     background-color: yellow;
     margin-left: auto;
     margin-right: auto;
 }
 .forms {
-    width: 400px;
+    width: 49%;
     height: 250px;
     float: left;
     display: inline-block;
@@ -34,12 +34,12 @@ body {
 }
 .inputs {
     display: inline-block;
-    width: 140px;
-    height: 140px;
+    width: 120px;
+    height: 130px;
     float: left;
 }
 .inputs input {
-    margin: 11px;
+    margin: 9px;
 }
 .titles input {
 	width: 100px;
