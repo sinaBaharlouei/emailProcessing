@@ -311,6 +311,14 @@ class ProfileController extends BaseController
 		(
 			array('email' => $receiver_email)
 		);
+		if (!$receiver) {
+			return $this->redirectToRoute(
+				'profile_inbox',
+				array(
+					'message' =>  "invalid email address"
+				)
+			);
+		}
         $is_contact = false;
 
 
