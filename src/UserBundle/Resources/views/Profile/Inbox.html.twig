@@ -6,24 +6,23 @@
 </head>
 <body>
 <div id="header">
-
-    {% if message %}
+  {#  {% if message %}
         <p>{{ message }}</p>
-    {% endif %}
+    {% endif %}#}
 <h1>
     Inbox
 </h1>
-<h2 id="name_header" style="float: right; margin-top: -4%">
-    <a href={{ path('profile_profile') }}>{{ user.name }}</a>
+<h2 id="name_header" >
+    <a id="namename" class="name" href={{ path('profile_profile') }}>{{ user.name }}</a>
 </h2>
-<h2 id="logout" style="float: right; margin-top: -4%; margin-right: 8%">
-    <a href={{ path('user_logout') }}>Logout</a>
+<h2 id="logout">
+    <a  id="logoutout" class="name" href={{ path('user_logout') }}>Logout</a>
 </h2>
 </div>
 
 <div id="box">
     <h5 id="refresh">Refresh</h5>
-    <a href={{ path('profile_compose') }}> <h5 id="compose">Compose</h5></a>
+    <a id ="comp" href={{ path('profile_compose') }}> <h5 id="compose">Compose</h5></a>
     <h5 id="inbox">Inbox</h5>
     <h5 id="sent">Sent</h5>
     Num of Mail:<input type="text" name="numOfMail" id="numOfMail" value="4"><br>
@@ -54,14 +53,14 @@
             var numOfMail=$("#numOfMail").val();
             $.ajax({
                 type:"GET",
-                url : "../server.php?inbox=true&nom="+numOfMail,
+                url :"/profile/getInbox?inbox=true&nom="+numOfMail,
                 dataType : "xml",
                 cache : false ,
                 async : false ,
                 success : function (xml) {
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
-                        var email='div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        var email='<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
                         email+='</div><div class="subject">'+$(this).children("subject").text();
                         email+='</div><div class="text">'+$(this).children("text").text();
                         email+='</div><div class="date">'+$(this).children("date").text()+'</div></div>';
@@ -90,14 +89,14 @@
                 numOfMail=$("#numOfMail").val();
                 $.ajax({
                 type:"GET",
-                url : "../server.php?refresh=true&nom="+numOfMail,
+                url : "/profile/getInbox?refresh=true&nom="+numOfMail,
                 dataType : "xml",
                 cache : false ,
                 async : false ,
                 success : function (xml) {
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
-                        var email='div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        var email='<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
                         email+='</div><div class="subject">'+$(this).children("subject").text();
                         email+='</div><div class="text">'+$(this).children("text").text();
                         email+='</div><div class="date">'+$(this).children("date").text()+'</div></div>';
@@ -133,14 +132,14 @@
                 $("#mails").empty();
                 $.ajax({
                 type:"GET",
-                url : "../server.php?inbox=true&nom="+numOfMail,
+                url : "/profile/getInbox?inbox=true&nom="+numOfMail,
                 dataType : "xml",
                 cache : false ,
                 async : false ,
                 success : function (xml) {
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
-                        var email='div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        var email='<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
                         email+='</div><div class="subject">'+$(this).children("subject").text();
                         email+='</div><div class="text">'+$(this).children("text").text();
                         email+='</div><div class="date">'+$(this).children("date").text()+'</div></div>';
@@ -170,7 +169,7 @@
                 $("#mails").empty();
                 $.ajax({
                 type:"GET",
-                url : "../server.php?sent=true&nom="+numOfMail,
+                url : "/profile/getSent?sent=true&nom="+numOfMail,
                 dataType : "xml",
                 cache : false ,
                 async : false ,
@@ -178,7 +177,7 @@
 
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
-                        var email='div class="eachMail">'+'<div class="from">'+$(this).children("to").text();
+                        var email='<div class="eachMail">'+'<div class="from">'+$(this).children("to").text();
                         email+='</div><div class="subject">'+$(this).children("subject").text();
                         email+='</div><div class="text">'+$(this).children("text").text();
                         email+='</div><div class="date">'+$(this).children("date").text()+'</div></div>';
