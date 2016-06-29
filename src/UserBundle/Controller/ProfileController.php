@@ -299,16 +299,43 @@ class ProfileController extends BaseController
      */
     public function composeEmailAction(Request $request)
     {
-        $sender = $this->getUser();
-        $receiver_email = $this->required('to');
 
+        $sender = $this->getUser();
+        $hercontacts = $this->getUser()->getContacts();
+        $receiver_email = $this->required('to');
         $em = $this->getDoctrine()->getEntityManager();
         $userRepository = $em->getRepository("UserBundle:User");
         $receiver = $userRepository->findOneBy
 		(
 			array('email' => $receiver_email)
 		);
+        $is_contact = false;
 
+
+        foreach ($hercontacts as $user) {
+
+            if ($user->getContact2()->getId() == $receiver->getId()) {
+
+                $is_contact = true;
+                continue;
+            }
+               /* if ($is_contact==true)
+                continue;*/
+
+
+        }
+        if ($is_contact==false) {
+
+
+
+            return $this->redirectToRoute(
+                'profile_inbox',
+                array(
+                    'message' =>  "you can only send message to your contacts."
+                )
+            );
+
+        }
 
         $date = new \DateTime();
 
@@ -331,7 +358,7 @@ class ProfileController extends BaseController
         return $this->redirectToRoute(
             'profile_inbox',
             array(
-                'message' => "Messege sent."
+                'message' =>"message sent"
             )
         );
     }
