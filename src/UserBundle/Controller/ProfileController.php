@@ -37,11 +37,13 @@ class ProfileController extends BaseController
 	 */
 	public function inboxAction(Request $request)
 	{
+		$message = $this->optional("message");
 		$user = $this->getUser();
 		return $this->render(
 			'@User/Profile/Inbox.html.twig',
 			array(
-				'user' => $user
+				'user' => $user,
+				'message' => $message
 			)
 		);
 	}
