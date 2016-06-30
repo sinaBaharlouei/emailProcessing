@@ -217,7 +217,7 @@
                 $("#mails").empty();
                 $.ajax({
                 type:"GET",
-                url : "../server.php?inbox=true&sortby="+this.value+"&nom="+numOfMail,
+                url : "/email/getMails?inbox=true&sortby="+this.value+"&nom="+numOfMail,
                 dataType : "xml",
                 cache : false ,
                 async : false ,

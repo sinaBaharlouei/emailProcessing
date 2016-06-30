@@ -19,6 +19,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @ORM\Table(name="User")
  * @ORM\Entity(repositoryClass="UserBundle\Entity\Repository\UserRepository")
+ * @ORM\EntityListeners({"UserBundle\Entity\Lifecycle\UserListener"})
  * @Vich\Uploadable
  */
 class User implements AdvancedUserInterface, \JsonSerializable, HasAttachmentEntity

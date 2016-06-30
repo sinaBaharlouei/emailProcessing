@@ -85,7 +85,92 @@ class EmailController extends BaseController
         exit();
     }
 
-    /**
+	/**
+	 * @Route(path="/getMails", name="email_sorted_inbox")
+	 * @Template
+	 * @param Request $request
+	 * @return array
+	 */
+	public function getSortedInboxAction(Request $request)
+	{
+
+		$em = $this->getDoctrine()->getEntityManager();
+		$userRepository = $em->getRepository("UserBundle:User");
+		$emailRepository = $em->getRepository("UserBundle:Email");
+
+		$me = $this->getUser();
+
+		$sort_by = $this->required("sortby");
+		$nom = $this->required("nom");
+
+
+		$emails = null;
+
+
+		switch($sort_by) {
+
+			case 'date':
+				$emails = $emailRepository->findBy(
+					array(
+						'receiver' => $me
+					),
+					array(
+						'createdAt' => 'desc'
+					),
+					$nom, 0
+				);
+				break;
+
+			case 'sender':
+				break;
+
+			default:
+
+		}
+
+		$output = '<?xml version="1.0" encoding="UTF-8"?>';
+		$output .= "<mails>";
+		foreach($emails as $email) {
+			$output .= "<mail>";
+			$sender = $email->getSender()->getName();
+			$output .= "<from>";
+			$output .= $sender ;
+			$output .= "</from>";
+			$receiver = $email-> getReceiver()->getName();
+			$output .= "<to>";
+			$output .= $receiver ;
+			$output .= "</to>";
+			$date = $email->getCreatedAt();
+			$content = $email->getText();
+
+			$subject = $email->getTitle();
+			$output .= "<subject>";
+			$output .= $subject ;
+			$output .= "</subject>";
+			$output .= "<text>";
+			$output .= $content ;
+			$output .= "</text>";
+			$output .= "<date>";
+			$output .= $date->format('H:i Y/m/d '); ;
+			$output .= "</date>";
+			$output .= "<attachments>";
+			// for each attachment add an <attach></attach> tag
+			$output .= "</attachments>";
+
+			$output .= "</mail>";
+
+		}
+
+		;
+		$output .= "</mails>";
+		header("Content-type: text/xml");
+		$xml = new \SimpleXMLElement($output);
+		echo $xml->asXML();
+		exit();
+	}
+
+
+	/**
      * @Route(path="/getSent", name="profile_getSent")
      * @Template
      * @param Request $request

@@ -20,7 +20,7 @@
     {% for user in users %}
         {% if me.id != user.id %}
         <div class="person">
-            <img src=""><br>
+            <img src="{{ user.imageURL }}"><br>
             <span>First Name: </span>
             <span >{{ user.name }}</span><br>
             <span>Last Name: </span>

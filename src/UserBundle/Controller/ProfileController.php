@@ -178,7 +178,7 @@ class ProfileController extends BaseController
 				'email' => $user->getEmail(),
 				'name' => $user->getName(),
 				'lastName' => $user->getLastName(),
-				'image' => "",
+				'image' => $user->getImageUrl(),
 			);
 		}
 		$output = '<?xml version="1.0" encoding="UTF-8"?>';
@@ -187,6 +187,7 @@ class ProfileController extends BaseController
 			$output .= "<user>";
 
 			$output .= "<img>";
+			$output .= $user['image'];
 			$output .= "</img>";
 
 			$output .= "<first>";
@@ -240,6 +241,7 @@ class ProfileController extends BaseController
 		$output .= "</username>";
 
 		$output .= "<img>";
+		$output .= $me->imageURL;
 		$output .= "</img>";
 
 		$output .= "<contacts>";
@@ -249,6 +251,7 @@ class ProfileController extends BaseController
 			$output .= "<contact>";
 
 			$output .= "<img>";
+			$output .= $user->imageURL;
 			$output .= "</img>";
 
 			$output .= "<first>";

@@ -99,7 +99,7 @@ class UserController extends BaseController
 				{
 					throw new \Exception("picture not moved successfully");
 				}
-				$user->setFilename($picture_name);
+				$user->setFilename($picture_name . ".png");
 			}
 		}
 

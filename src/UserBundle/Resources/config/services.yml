@@ -1,4 +1,6 @@
 services:
-#    user.example:
-#        class: UserBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
+    doctrine.lifecycles.user:
+        class: UserBundle\Entity\Lifecycle\UserListener
+        arguments: [ @service_container ]
+        tags:
+            - { name: doctrine.orm.entity_listener }
