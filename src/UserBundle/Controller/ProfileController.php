@@ -496,10 +496,12 @@ class ProfileController extends BaseController
         echo $xml->asXML();
         exit();
     }
+
     /**
      * @Route(path="/read/{id}", name="profile_read")
      * @Template
      * @param Request $request
+     * @param $id
      * @return array
      */
     public function readAction(Request $request, $id)
@@ -558,13 +560,13 @@ class ProfileController extends BaseController
      */
     public function readHtmlAction(Request $request)
     {
-        $message = $this->optional("message");
+        $id = $this->required("id");
         $user = $this->getUser();
         return $this->render(
             '@User/Profile/ReadEmail.html.twig',
             array(
                 'user' => $user,
-                'message' => $message
+                'id' => $id
             )
         );
     }
