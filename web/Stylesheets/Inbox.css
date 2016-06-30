@@ -60,13 +60,11 @@ body {
 .text {
     float: left;
     width: 400px;
-    color: lightgray;
     border-right: 1px solid gray;
 }
 .date {
     float: left;
     width: 45px;
-    color: gray;
     border-right: 1px solid gray;
 }
 .eachMail:hover {
