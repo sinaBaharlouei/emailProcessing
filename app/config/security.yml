@@ -39,7 +39,7 @@ security:
 
         # secures part of the application
         user:
-            pattern: ^/(user|profile)/
+            pattern: ^/(user|profile|email)/
             provider: user
             form_login:
                 login_path: user_login
@@ -57,3 +57,4 @@ security:
         - { path: ^/user/login, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_REMEMBERED] }
         - { path: ^/user/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/profile/, roles: ROLE_USER }
+        - { path: ^/email/, roles: ROLE_USER }

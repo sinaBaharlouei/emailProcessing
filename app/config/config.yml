@@ -79,3 +79,56 @@ vich_uploader:
             inject_on_load:     false
             delete_on_update:   true
             delete_on_remove:   true
+
+#Liip_imagine configuration
+liip_imagine:
+    resolvers:
+        default:
+            web_path:
+                web_root: %kernel.root_dir%/../web
+                cache_prefix: media/cache
+
+    loaders:
+        default:
+            filesystem:
+                data_root: %kernel.root_dir%/../web/
+
+    driver:               gd
+    cache:                default
+    data_loader:          default
+    default_image:        null
+    controller:
+        filter_action:         liip_imagine.controller:filterAction
+        filter_runtime_action: liip_imagine.controller:filterRuntimeAction
+    filter_sets:
+        type1:
+            filters:
+
+                thumbnail: { size: [800, 600], mode: outbound } # Transforms 50x40 to 32x32, while cropping the width
+        type2:
+            filters:
+                thumbnail: { size: [600, 600], mode: outbound } # Transforms 50x40 to 32x32, while cropping the width
+        type3:
+            filters:
+                thumbnail: { size: [555, 396], mode: outbound } # Transforms 50x40 to 32x32, while cropping the width
+        type4:
+            filters:
+                thumbnail: { size: [200, 200], mode: outbound } # Transforms 50x40 to 32x32, while cropping the width
+        # Prototype
+        name:
+            quality:              50
+            jpeg_quality:         ~
+            png_compression_level:  ~
+            png_compression_filter: ~
+            animated:             false
+            format:               ~
+            cache:                ~
+            data_loader:          ~
+            default_image:        null
+            filters:
+                # Prototype
+                name:                 []
+            post_processors:
+                # Prototype
+                name:                 []
+
