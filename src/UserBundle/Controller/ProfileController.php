@@ -396,6 +396,8 @@ class ProfileController extends BaseController
         foreach($emails as $email) {
             $output .= "<mail>";
             $sender = $email->getSender()->getName();
+            $isSpam = $email-> getIsSpam();
+            $isRead = $email->getIsRead();
             $id = $email->getId();
             $output .= "<id>";
             $output .= $id ;
@@ -418,6 +420,14 @@ class ProfileController extends BaseController
             $output .= "<text>";
             $output .= $content ;
             $output .= "</text>";
+            $output .= "<spam>";
+            $output .= $isSpam;
+            $output .= "</spam>";
+            $output .= "<read>";
+            $output .= $isRead;
+            $output .= "</read>";
+
+
             $output .= "<date>";
             $output .= $date->format('H:i Y/m/d '); ;
             $output .= "</date>";
@@ -514,7 +524,8 @@ class ProfileController extends BaseController
         $em = $this->getDoctrine()->getEntityManager();
         $emailRepository = $em->getRepository("UserBundle:Email");
 
-        $email = $emailRepository->findOneById($emailId);
+        $email = $emailRepository->find($emailId);
+
 
 
         $output = '<?xml version="1.0" encoding="UTF-8"?>';
@@ -539,6 +550,14 @@ class ProfileController extends BaseController
         $output .= "<text>";
         $output .= $content ;
         $output .= "</text>";
+        $output .= "<spam>";
+        $output .= $email->getIsSpam();
+        $output .= "</spam>";
+        $email-> setIsRead(1);
+        $output .= "<read>";
+        $output .=   $email-> getIsRead();
+        $output .= "</read>";
+
         $output .= "<date>";
         $output .= $date->format('H:i Y/m/d '); ;
         $output .= "</date>";

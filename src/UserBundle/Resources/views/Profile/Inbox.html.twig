@@ -60,6 +60,12 @@
                 success : function (xml) {
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
+                        var isSpam = $(this).children("isSpam");
+                        if (isSpam==1){
+                            document.querySelectorAll('#emailLink').onclick=function(){
+                                alert("This email is ");
+                            }
+                        }
                         // i know that there should be an id tag in xml but before that i need to pass varable $this as a parameter which is not posible
                         var email='<a id="emailLink" href={{ path('profile_readHtml', { 'id': 'emailId' }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
                         email = email.replace('emailId', $(this).children("id").text());
