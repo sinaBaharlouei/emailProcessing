@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>IE Project 4</title>
-    <link rel="stylesheet" type="text/css" href="../Stylesheets/ReadEmail.css">
+    <link rel="stylesheet" type="text/css" href={{ asset('Stylesheets/ReadEmail.css') }}>
 </head>
 <body>
 <div id="email">
@@ -33,7 +33,14 @@
                         var email='<p>An email from:</p><p id="from">'+ $(this).children("from").text();
                         email+='</p><br><p>with subject of:</p><p id="subject">'+ $(this).children("subject").text();
                         email+='</p><br><p>received in date:</p><p id="date">'+ $(this).children("date").text();
-                        email+='</p><br><div id="test"><p id="text">'+ $(this).children("text").text();+'</p></div>';
+                        email+='</p><br><div id="test"><p id="text">'+ $(this).children("text").text() + "</p>";
+
+                        var attach = $(this).children("attach").text();
+                        if (attach) {
+                            email += "<br><a href='" + attach + "'> get Attachment </a>"
+                        }
+
+                        email += "</div>";
                         $("#email").append(email);
 
                     });

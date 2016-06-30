@@ -62,6 +62,22 @@ class Email implements \JsonSerializable
 	 */
 	protected $receiver;
 
+	/**
+	 * @ORM\Column(name="receiverName", type="string", length=128, nullable=false)
+	 */
+	protected $receiverName;
+
+	/**
+	 * @ORM\Column(name="senderName", type="string", length=128, nullable=false)
+	 */
+	protected $senderName;
+
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=true, name="attachment")
+	 */
+	protected $attachment = NULL;
+
+	protected $url;
 
 	/**
 	 * (PHP 5 &gt;= 5.4.0)<br/>
@@ -245,4 +261,91 @@ class Email implements \JsonSerializable
     {
         return $this->receiver;
     }
+
+    /**
+     * Set receiverName
+     *
+     * @param string $receiverName
+     * @return Email
+     */
+    public function setReceiverName($receiverName)
+    {
+        $this->receiverName = $receiverName;
+
+        return $this;
+    }
+
+    /**
+     * Get receiverName
+     *
+     * @return string 
+     */
+    public function getReceiverName()
+    {
+        return $this->receiverName;
+    }
+
+    /**
+     * Set senderName
+     *
+     * @param string $senderName
+     * @return Email
+     */
+    public function setSenderName($senderName)
+    {
+        $this->senderName = $senderName;
+
+        return $this;
+    }
+
+    /**
+     * Get senderName
+     *
+     * @return string 
+     */
+    public function getSenderName()
+    {
+        return $this->senderName;
+    }
+
+    /**
+     * Set attachment
+     *
+     * @param string $attachment
+     * @return Email
+     */
+    public function setAttachment($attachment)
+    {
+        $this->attachment = $attachment;
+
+        return $this;
+    }
+
+    /**
+     * Get attachment
+     *
+     * @return string 
+     */
+    public function getAttachment()
+    {
+        return $this->attachment;
+    }
+
+	/**
+	 * Get Url
+	 * @return string
+	 */
+	public function getUrl()
+	{
+		return $this->url;
+	}
+
+	/**
+	 * Set Url
+	 * @param $url
+	 */
+	public function setUrl($url)
+	{
+		$this->url = $url;
+	}
 }

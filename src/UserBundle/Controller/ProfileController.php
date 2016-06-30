@@ -296,12 +296,14 @@ class ProfileController extends BaseController
     }
 
 
-    /**
-     * @Route(path="/composeEmail", name="profile_compose_email")
-     * @Template
-     * @param Request $request
-     * @return array
-     */
+	/**
+	 * @Route(path="/composeEmail", name="profile_compose_email")
+	 * @Template
+	 * @param Request $request
+	 * @return array
+	 * @throws \Doctrine\ORM\ORMInvalidArgumentException
+	 * @throws \Exception
+	 */
     public function composeEmailAction(Request $request)
     {
 
@@ -358,12 +360,27 @@ class ProfileController extends BaseController
 
         $email = new Email();
         $email->setSender($sender);
-        $email->setReceiver( $receiver);
+        $email->setReceiver($receiver);
+		$email->setReceiverName($receiver->getName());
+		$email->setSenderName($sender->getName());
         $email->setTitle($subject);
         $email->setText($text);
         $email->setIsRead(0);
         $email->setCreatedAt($date);
         $email->setIsSpam(0);
+
+		if ( isset($_FILES['attachment'])) {
+
+			if ( is_uploaded_file($_FILES['attachment']['tmp_name'])) {
+
+				$name = $_FILES['attachment']['name'];
+				if (! move_uploaded_file($_FILES['attachment']['tmp_name'], $path = $this->get('kernel')->getRootDir() . '/../web' . "/attachments/" . $name))
+				{
+					throw new \Exception("picture not moved successfully");
+				}
+				$email->setAttachment($name);
+			}
+		} else throw new \Exception("sa");
 
         $em->persist($email);
         $em->flush();
@@ -415,6 +432,9 @@ class ProfileController extends BaseController
             $output .= "</to>";
             $date = $email->getCreatedAt();
             $content = $email -> getText();
+			if (strlen($content) > 25) {
+				$content = substr($content, 0, 25);
+			}
 
             $subject = $email->getTitle();
             $output .= "<subject>";
@@ -435,6 +455,12 @@ class ProfileController extends BaseController
             $output .= $date->format('H:i Y/m/d '); ;
             $output .= "</date>";
             $output .= "<attachments>";
+			if($email->getAttachment()) {
+				$output .= "<attach>";
+				$output .= "/attachments/" . $email->getAttachment();
+				$output .= "</attach>";
+
+			}
             // for each attachment add an <attach></attach> tag
             $output .= "</attachments>";
 
@@ -486,6 +512,9 @@ class ProfileController extends BaseController
             $output .= "</to>";
             $date = $email->getCreatedAt();
             $content = $email -> getText();
+			if (strlen($content) > 25) {
+				$content = substr($content, 0, 25);
+			}
 
             $subject = $email->getTitle();
             $output .= "<subject>";
@@ -499,6 +528,13 @@ class ProfileController extends BaseController
             $output .= "</date>";
             $output .= "<attachments>";
             // for each attachment add an <attach></attach> tag
+			if($email->getAttachment()) {
+				$output .= "<attach>";
+				$output .= "/attachments/" . $email->getAttachment();
+				$output .= "</attach>";
+
+			}
+
             $output .= "</attachments>";
 
             $output .= "</mail>";
@@ -544,7 +580,7 @@ class ProfileController extends BaseController
         $output .= $receiver ;
         $output .= "</to>";
         $date = $email->getCreatedAt();
-        $content = $email -> getText();
+		$content = $email -> getText();
 
         $subject = $email->getTitle();
         $output .= "<subject>";
@@ -557,6 +593,7 @@ class ProfileController extends BaseController
         $output .= $email->getIsSpam();
         $output .= "</spam>";
         $email-> setIsRead(1);
+		$em->flush();
         $output .= "<read>";
         $output .=   $email-> getIsRead();
         $output .= "</read>";
@@ -564,9 +601,12 @@ class ProfileController extends BaseController
         $output .= "<date>";
         $output .= $date->format('H:i Y/m/d '); ;
         $output .= "</date>";
-        $output .= "<attachments>";
         // for each attachment add an <attach></attach> tag
-        $output .= "</attachments>";
+		if($email->getAttachment()) {
+			$output .= "<attach>";
+			$output .= "/attachments/" . $email->getAttachment();
+			$output .= "</attach>";
+		}
         $output .= "</mail>";
         $output .= "</mails>";
         header("Content-type: text/xml");

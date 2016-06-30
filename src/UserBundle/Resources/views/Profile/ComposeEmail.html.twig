@@ -2,13 +2,13 @@
 <html>
 <head>
     <title>IE Project 4</title>
-    <link rel="stylesheet" type="text/css" href="../Stylesheets/ComposeEmail.css">
+    <link rel="stylesheet" type="text/css" href={{ asset('Stylesheets/ComposeEmail.css') }}>
 </head>
 <body>
 <a class="options" href={{ path('profile_inbox') }}>Inbox</a>
 <div id="container">
     <div class="forms">
-        <form id="send"   action={{ path('profile_compose_email') }}>
+        <form id="send" enctype="multipart/form-data"  method="post" action={{ path('profile_compose_email') }}>
             <div class="titles">
                 <h5>To:</h5>
                 <h5>Subject:</h5>
