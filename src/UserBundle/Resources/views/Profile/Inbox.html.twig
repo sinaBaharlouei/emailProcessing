@@ -61,7 +61,9 @@
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
                         // i know that there should be an id tag in xml but before that i need to pass varable $this as a parameter which is not posible
-                        var email='<a id="emailLink" href={{ path('profile_read', { 'emailId': $(this).children("id").text() }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        var email='<a id="emailLink" href={{ path('profile_read', { 'id': 'emailId' }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        email = email.replace('emailId', $(this).children("id").text());
+
                         email+='</div><div class="subject">'+$(this) .children("subject").text();
                         email+='</div><div class="text">'+$(this).children("text").text();
                         email+='</div><div class="date">'+$(this).children("date").text()+'</div></div>'+'</a>';
@@ -88,7 +90,6 @@
                          }
 
             });
-
             $(document).on('click','#refresh',function(){
                 numOfMail=$("#numOfMail").val();
                 $.ajax({
@@ -100,7 +101,8 @@
                 success : function (xml) {
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
-                        var email='<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        var email='<a id="emailLink" href={{ path('profile_readHtml', { 'id': 'emailId' }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        email = email.replace('emailId', $(this).children("id").text());
                         email+='</div><div class="subject">'+$(this).children("subject").text();
                         email+='</div><div class="text">'+$(this).children("text").text();
                         email+='</div><div class="date">'+$(this).children("date").text()+'</div></div>';
@@ -114,7 +116,7 @@
                         }
                     });
                     $(document).on('click','.eachMail',function(){
-                        window.location="../server.php?email=true & from="+$(this).children(".from").text()+"& date="+$(this).children(".date").text();
+                       // window.location="../server.php?email=true & from="+$(this).children(".from").text()+"& date="+$(this).children(".date").text();
                     });
                 },error: function(jqXHR, textStatus, errorThrown)
                          {
@@ -128,7 +130,7 @@
                 });
 
             $(document).on('click','#compose',function(){
-                        window.location="../server.php?compose=true";
+                       // window.location="../server.php?compose=true";
                     });
 
             $(document).on('click','#inbox',function(){
@@ -143,7 +145,8 @@
                 success : function (xml) {
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
-                        var email='<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        var email='<a id="emailLink" href={{ path('profile_readHtml', { 'id': 'emailId' }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        email = email.replace('emailId', $(this).children("id").text());
                         email+='</div><div class="subject">'+$(this).children("subject").text();
                         email+='</div><div class="text">'+$(this).children("text").text();
                         email+='</div><div class="date">'+$(this).children("date").text()+'</div></div>';
@@ -157,7 +160,7 @@
                         }
                     });
                     $(document).on('click','.eachMail',function(){
-                        window.location="../server.php?email=true & from="+$(this).children(".from").text()+"& date="+$(this).children(".date").text();
+                      //  window.location="../server.php?email=true & from="+$(this).children(".from").text()+"& date="+$(this).children(".date").text();
                     });
                 },error: function(jqXHR, textStatus, errorThrown)
                          {
@@ -181,7 +184,8 @@
 
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
-                        var email='<div class="eachMail">'+'<div class="from">'+$(this).children("to").text();
+                        var email='<a id="emailLink" href={{ path('profile_readHtml', { 'id': 'emailId' }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        email = email.replace('emailId', $(this).children("id").text());
                         email+='</div><div class="subject">'+$(this).children("subject").text();
                         email+='</div><div class="text">'+$(this).children("text").text();
                         email+='</div><div class="date">'+$(this).children("date").text()+'</div></div>';
@@ -195,7 +199,7 @@
                         }
                     });
                     $(document).on('click','.eachMail',function(){
-                        window.location="../server.php?email=true & from="+$(this).children(".to").text()+"& date="+$(this).children(".date").text();
+                      //  window.location="../server.php?email=true & from="+$(this).children(".to").text()+"& date="+$(this).children(".date").text();
                     });
                 },error: function(jqXHR, textStatus, errorThrown)
                          {
@@ -220,7 +224,8 @@
                 success : function (xml) {
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
-                        var email='div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        var email='<a id="emailLink" href={{ path('profile_readHtml', { 'id': 'emailId' }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        email = email.replace('emailId', $(this).children("id").text());
                         email+='</div><div class="subject">'+$(this).children("subject").text();
                         email+='</div><div class="text">'+$(this).children("text").text();
                         email+='</div><div class="date">'+$(this).children("date").text()+'</div></div>';
@@ -234,7 +239,7 @@
                         }
                     });
                     $(document).on('click','.eachMail',function(){
-                        window.location="../server.php?email=true & from="+$(this).children(".from").text()+"& date="+$(this).children(".date").text();
+                       // window.location="../server.php?email=true & from="+$(this).children(".from").text()+"& date="+$(this).children(".date").text();
                     });
                 },error: function(jqXHR, textStatus, errorThrown)
                          {

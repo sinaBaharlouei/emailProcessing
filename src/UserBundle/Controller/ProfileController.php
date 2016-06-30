@@ -401,9 +401,14 @@ class ProfileController extends BaseController
         foreach($emails as $email) {
             $output .= "<mail>";
             $sender = $email->getSender()->getName();
+            $id = $email->getId();
+            $output .= "<id>";
+            $output .= $id ;
+            $output .= "</id>";
             $output .= "<from>";
             $output .= $sender ;
             $output .= "</from>";
+
             $receiver = $email-> getReceiver()->getName();
             $output .= "<to>";
             $output .= $receiver ;
@@ -452,6 +457,10 @@ class ProfileController extends BaseController
         foreach($emails as $email) {
             $output .= "<mail>";
             $sender = $email->getSender()->getName();
+            $id = $email->getId();
+            $output .= "<id>";
+            $output .= $id ;
+            $output .= "</id>";
             $output .= "<from>";
             $output .= $sender ;
             $output .= "</from>";
@@ -488,19 +497,19 @@ class ProfileController extends BaseController
         exit();
     }
     /**
-     * @Route(path="/read", name="profile_read")
+     * @Route(path="/read/{id}", name="profile_read")
      * @Template
      * @param Request $request
      * @return array
      */
-    public function readAction(Request $request ,emailId $id)
+    public function readAction(Request $request, $id)
     {
         $emailId =$id;
 
         $em = $this->getDoctrine()->getEntityManager();
-        $emailRepository = $em->getRepository("EmailBundle:Email");
+        $emailRepository = $em->getRepository("UserBundle:Email");
 
-        $email = $emailRepository.findOneById($emailId);
+        $email = $emailRepository->findOneById($emailId);
 
 
         $output = '<?xml version="1.0" encoding="UTF-8"?>';
@@ -536,14 +545,30 @@ class ProfileController extends BaseController
         header("Content-type: text/xml");
         $xml = new \SimpleXMLElement($output);
         echo $xml->asXML();
-      //  exit();
+        exit();
+
+    }
+
+
+    /**
+     * @Route(path="/readHtml", name="profile_readHtml")
+     * @Template
+     * @param Request $request
+     * @return array
+     */
+    public function readHtmlAction(Request $request)
+    {
+        $message = $this->optional("message");
+        $user = $this->getUser();
         return $this->render(
-            '@User/Profile/readEmail.html.twig',
+            '@User/Profile/ReadEmail.html.twig',
             array(
-                'email' => $email
+                'user' => $user,
+                'message' => $message
             )
         );
     }
+
 
 
 
