@@ -25,7 +25,7 @@
                 cache : false ,
                 async : false ,
                 success : function (xml) {
-                   
+
                     var mail=$(xml).children("mail");
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
@@ -43,9 +43,11 @@
                     $(document).on('click','#deleteMail',function(){
                         $.ajax({
                             method: 'get',
-                            url: '../server.php?from='+from+'&date='+date,
+                            url: "/profile/deleteEmail?id=" + {{ id }} + "&email=true",
                             success: function(data){
-                                 alert("successfuly deleted.");s
+                                 alert("successfuly deleted.");
+                                 window.location = "{{ path('profile_inbox') }}";
+
                             },error: function(jqXHR, textStatus, errorThrown)
                             {
                              // Handle errors here

@@ -551,13 +551,16 @@ class ProfileController extends BaseController
 
     }
 
-
     /**
      * @Route(path="/readHtml", name="profile_readHtml")
      * @Template
      * @param Request $request
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return array
      */
+
+
+
     public function readHtmlAction(Request $request)
     {
         $id = $this->required("id");
@@ -570,6 +573,54 @@ class ProfileController extends BaseController
             )
         );
     }
+
+    /**
+     * @Route(path="/deleteEmail", name="profile_delete_email")
+     * @Template
+     * @param Request $request
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @return array
+     */
+
+    public function deleteEmailAction(Request $request)
+    {
+        $id = $this->required("id");
+
+
+        $user = $this->getUser();
+
+        $emailId =$id;
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $emailRepository = $em->getRepository("UserBundle:Email");
+
+        $email = $emailRepository->find($emailId);
+        if (!$email)
+            return $this->render(
+                '@User/Profile/Inbox.html.twig',
+                array(
+                    'user' => $user,
+                    'id' => $id,
+                    'message' =>'not found'
+                )
+            );
+
+        $em->remove($email);
+        $em->flush();
+
+        return $this->render(
+            '@User/Profile/Inbox.html.twig',
+            array(
+                'user' => $user,
+                'id' => $id,
+                'message' =>'deleted successfully'
+            )
+        );
+
+
+    }
+
+
 
 
 
