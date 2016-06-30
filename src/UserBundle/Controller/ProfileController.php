@@ -378,12 +378,7 @@ class ProfileController extends BaseController
 
 
 
-    /**
-     * @Route(path="/getSent", name="profile_getSent")
-     * @Template
-     * @param Request $request
-     * @return array
-     */ /**
+     /**
  * @Route(path="/getInbox", name="profile_getInbox")
  * @Template
  * @param Request $request
@@ -404,6 +399,8 @@ class ProfileController extends BaseController
         foreach($emails as $email) {
             $output .= "<mail>";
             $sender = $email->getSender()->getName();
+            $isSpam = $email-> getIsSpam();
+            $isRead = $email->getIsRead();
             $id = $email->getId();
             $output .= "<id>";
             $output .= $id ;
@@ -426,6 +423,14 @@ class ProfileController extends BaseController
             $output .= "<text>";
             $output .= $content ;
             $output .= "</text>";
+            $output .= "<spam>";
+            $output .= $isSpam;
+            $output .= "</spam>";
+            $output .= "<read>";
+            $output .= $isRead;
+            $output .= "</read>";
+
+
             $output .= "<date>";
             $output .= $date->format('H:i Y/m/d '); ;
             $output .= "</date>";
@@ -444,6 +449,14 @@ class ProfileController extends BaseController
         echo $xml->asXML();
         exit();
     }
+
+
+    /**
+     * @Route(path="/getSent", name="profile_getSent")
+     * @Template
+     * @param Request $request
+     * @return array
+     */
 
 
     public function getSentAction(Request $request)
@@ -499,10 +512,12 @@ class ProfileController extends BaseController
         echo $xml->asXML();
         exit();
     }
+
     /**
      * @Route(path="/read/{id}", name="profile_read")
      * @Template
      * @param Request $request
+     * @param $id
      * @return array
      */
     public function readAction(Request $request, $id)
@@ -512,7 +527,8 @@ class ProfileController extends BaseController
         $em = $this->getDoctrine()->getEntityManager();
         $emailRepository = $em->getRepository("UserBundle:Email");
 
-        $email = $emailRepository->findOneById($emailId);
+        $email = $emailRepository->find($emailId);
+
 
 
         $output = '<?xml version="1.0" encoding="UTF-8"?>';
@@ -537,6 +553,14 @@ class ProfileController extends BaseController
         $output .= "<text>";
         $output .= $content ;
         $output .= "</text>";
+        $output .= "<spam>";
+        $output .= $email->getIsSpam();
+        $output .= "</spam>";
+        $email-> setIsRead(1);
+        $output .= "<read>";
+        $output .=   $email-> getIsRead();
+        $output .= "</read>";
+
         $output .= "<date>";
         $output .= $date->format('H:i Y/m/d '); ;
         $output .= "</date>";
@@ -552,25 +576,76 @@ class ProfileController extends BaseController
 
     }
 
-
     /**
      * @Route(path="/readHtml", name="profile_readHtml")
      * @Template
      * @param Request $request
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return array
      */
+
+
+
     public function readHtmlAction(Request $request)
     {
-        $message = $this->optional("message");
+        $id = $this->required("id");
         $user = $this->getUser();
         return $this->render(
             '@User/Profile/ReadEmail.html.twig',
             array(
                 'user' => $user,
-                'message' => $message
+                'id' => $id
             )
         );
     }
+
+    /**
+     * @Route(path="/deleteEmail", name="profile_delete_email")
+     * @Template
+     * @param Request $request
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @return array
+     */
+
+    public function deleteEmailAction(Request $request)
+    {
+        $id = $this->required("id");
+
+
+        $user = $this->getUser();
+
+        $emailId =$id;
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $emailRepository = $em->getRepository("UserBundle:Email");
+
+        $email = $emailRepository->find($emailId);
+        if (!$email)
+            return $this->render(
+                '@User/Profile/Inbox.html.twig',
+                array(
+                    'user' => $user,
+                    'id' => $id,
+                    'message' =>'not found'
+                )
+            );
+
+        $em->remove($email);
+        $em->flush();
+
+        return $this->render(
+            '@User/Profile/Inbox.html.twig',
+            array(
+                'user' => $user,
+                'id' => $id,
+                'message' =>'deleted successfully'
+            )
+        );
+
+
+    }
+
+
 
 
 

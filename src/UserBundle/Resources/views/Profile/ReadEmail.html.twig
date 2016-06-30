@@ -13,36 +13,41 @@
 
 </body>
 </html>
-    <script src="./jquery-1.12.0.js"></script>
+    <script src={{ asset('js/jquery-1.12.0.js') }}></script>
     <script type="text/javascript">
     $(document).ready(function(){
 
-        $.urlParam = function(name){
-            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-            return results[1] || 0;
-        }
-        var from=$.urlParam('from');
-        var date=$.urlParam('date');
 
             $.ajax({
                 type:"GET",
-                url :"/profile/read?email=true&from="+from+"&date="+date,
+                url : "/profile/read/" + {{ id }} + "?email=true",
                 dataType : "xml",
                 cache : false ,
                 async : false ,
                 success : function (xml) {
+
                     var mail=$(xml).children("mail");
-                    var email='<p>An email from:</p><p id="from">'+mail.children("from").text();
-                        email+='</p><br><p>with subject of:</p><p id="subject">'+mail.children("subject").text();
-                        email+='</p><br><p>received in date:</p><p id="date">'+mail.children("date").text();
-                        email+='</p><br><div id="test"><p id="text">'+mail.children("text").text()+'</p></div>';
+                    var all=$(xml).children('mails').children("mail");
+                    all.each(function(){
+
+                        var email='<p>An email from:</p><p id="from">'+ $(this).children("from").text();
+                        email+='</p><br><p>with subject of:</p><p id="subject">'+ $(this).children("subject").text();
+                        email+='</p><br><p>received in date:</p><p id="date">'+ $(this).children("date").text();
+                        email+='</p><br><div id="test"><p id="text">'+ $(this).children("text").text();+'</p></div>';
                         $("#email").append(email);
+
+                    });
+
+
+
                     $(document).on('click','#deleteMail',function(){
                         $.ajax({
                             method: 'get',
-                            url: '../server.php?from='+from+'&date='+date,
+                            url: "/profile/deleteEmail?id=" + {{ id }} + "&email=true",
                             success: function(data){
                                  alert("successfuly deleted.");
+                                 window.location = "{{ path('profile_inbox') }}";
+
                             },error: function(jqXHR, textStatus, errorThrown)
                             {
                              // Handle errors here
