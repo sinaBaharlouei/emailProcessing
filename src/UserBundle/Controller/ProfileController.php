@@ -375,12 +375,7 @@ class ProfileController extends BaseController
 
 
 
-    /**
-     * @Route(path="/getSent", name="profile_getSent")
-     * @Template
-     * @param Request $request
-     * @return array
-     */ /**
+     /**
  * @Route(path="/getInbox", name="profile_getInbox")
  * @Template
  * @param Request $request
@@ -441,6 +436,14 @@ class ProfileController extends BaseController
         echo $xml->asXML();
         exit();
     }
+
+
+    /**
+     * @Route(path="/getSent", name="profile_getSent")
+     * @Template
+     * @param Request $request
+     * @return array
+     */
 
 
     public function getSentAction(Request $request)
