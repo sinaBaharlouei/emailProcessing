@@ -63,7 +63,7 @@
                         var isSpam = $(this).children("isSpam");
                         if (isSpam==1){
                             document.querySelectorAll('#emailLink').onclick=function(){
-                                alert("This email is ");
+                                confirm("This message is spam ,do you want to open it?");
                             }
                         }
                         // i know that there should be an id tag in xml but before that i need to pass varable $this as a parameter which is not posible
