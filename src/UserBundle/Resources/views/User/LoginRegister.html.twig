@@ -10,7 +10,7 @@
             <p>{{ message }}</p>
         {% endif %}
         <div class="forms">
-            <form id="registeration" action={{ path('user_register') }}>
+            <form id="registeration" enctype="multipart/form-data" method="post" action={{ path('user_register') }}>
                 <div class="titles">
                     <h5>First Name :</h5>
                     <h5>Last Name :</h5>

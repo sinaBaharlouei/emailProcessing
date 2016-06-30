@@ -1,20 +1,27 @@
 <?php
 namespace UserBundle\Entity;
 
+use AppBundle\Entity\HasAttachmentEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use UserBundle\Entity\Category;
 use UserBundle\Entity\Constants\RoleConstants;
 use UserBundle\Entity\Constants\UserConstants;
+use UserBundle\Entity\Contact;
 use UserBundle\Entity\Email;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * UserBundle\Entity\User
  *
  * @ORM\Table(name="User")
  * @ORM\Entity(repositoryClass="UserBundle\Entity\Repository\UserRepository")
+ * @Vich\Uploadable
  */
-class User implements AdvancedUserInterface, \JsonSerializable
+class User implements AdvancedUserInterface, \JsonSerializable, HasAttachmentEntity
 {
 
 	/**
@@ -100,6 +107,36 @@ class User implements AdvancedUserInterface, \JsonSerializable
 	 * @ORM\OneToMany(targetEntity="Category", mappedBy="user")
 	 */
 	protected $categories;
+
+	/**
+	 * @ORM\Column(type="string", length=255, nullable=true, name="image_name")
+	 */
+	protected $imageName = NULL;
+
+	/**
+	 * @Assert\File(
+	 *     maxSize="5M",
+	 *     mimeTypes={"image/png", "image/jpeg"}
+	 * )
+	 * @Vich\UploadableField(mapping="user_image", fileNameProperty="imageName")
+	 * @var File $imageFile
+	 */
+	protected $imageFile;
+
+	/**
+	 * @Assert\File(maxSize="6000000")
+	 */
+	private $file;
+
+	/**
+	 * for file uploading
+	 */
+	private $temp;
+
+	/**
+	 * for getting suitable imageSize Src to the user
+	 */
+	public $imageURL = "";
 
 	/**
      * Set name
@@ -496,10 +533,10 @@ class User implements AdvancedUserInterface, \JsonSerializable
     /**
      * Add contacts
      *
-     * @param \UserBundle\Entity\Contact $contacts
+     * @param Contact $contacts
      * @return User
      */
-    public function addContact(\UserBundle\Entity\Contact $contacts)
+    public function addContact(Contact $contacts)
     {
         $this->contacts[] = $contacts;
 
@@ -509,9 +546,9 @@ class User implements AdvancedUserInterface, \JsonSerializable
     /**
      * Remove contacts
      *
-     * @param \UserBundle\Entity\Contact $contacts
+     * @param Contact $contacts
      */
-    public function removeContact(\UserBundle\Entity\Contact $contacts)
+    public function removeContact(Contact $contacts)
     {
         $this->contacts->removeElement($contacts);
     }
@@ -529,10 +566,10 @@ class User implements AdvancedUserInterface, \JsonSerializable
     /**
      * Add inContacts
      *
-     * @param \UserBundle\Entity\Contact $inContacts
+     * @param Contact $inContacts
      * @return User
      */
-    public function addInContact(\UserBundle\Entity\Contact $inContacts)
+    public function addInContact(Contact $inContacts)
     {
         $this->inContacts[] = $inContacts;
 
@@ -542,9 +579,9 @@ class User implements AdvancedUserInterface, \JsonSerializable
     /**
      * Remove inContacts
      *
-     * @param \UserBundle\Entity\Contact $inContacts
+     * @param Contact $inContacts
      */
-    public function removeInContact(\UserBundle\Entity\Contact $inContacts)
+    public function removeInContact(Contact $inContacts)
     {
         $this->inContacts->removeElement($inContacts);
     }
@@ -562,12 +599,12 @@ class User implements AdvancedUserInterface, \JsonSerializable
     /**
      * Add categories
      *
-     * @param \UserBundle\Entity\Category $categories
+     * @param Category $categories
      * @return User
      */
-    public function addCategory(\UserBundle\Entity\Category $categories)
+    public function addCategory(Category $categories)
     {
-        $this->categories[] = $categories;
+		$this->categories[] = $categories;
 
         return $this;
     }
@@ -575,9 +612,9 @@ class User implements AdvancedUserInterface, \JsonSerializable
     /**
      * Remove categories
      *
-     * @param \UserBundle\Entity\Category $categories
+     * @param Category $categories
      */
-    public function removeCategory(\UserBundle\Entity\Category $categories)
+    public function removeCategory(Category $categories)
     {
         $this->categories->removeElement($categories);
     }
@@ -591,4 +628,127 @@ class User implements AdvancedUserInterface, \JsonSerializable
     {
         return $this->categories;
     }
+
+	/**
+	 * Get imageUrl
+	 *
+	 * @return string
+	 */
+	public function getImageUrl()
+	{
+		return $this->imageURL;
+	}
+
+	/** TODO: you have to return a default upload dir
+	 * @return string upload dir
+	 */
+	public function getUploadDir()
+	{
+		return 'users';
+	}
+
+	/**
+	 * @return string for using in the web
+	 */
+	public function getWebPath()
+	{
+		if($this->getFilename() === null)
+			return null;
+		return $this->getUploadDir().'/'.$this->getFileName();
+	}
+
+
+	/**
+	 * For Pre-Uploading
+	 *
+	 * @param string $filename
+	 */
+	public function setFilename($filename)
+	{
+		$this->imageName = $filename;
+	}
+
+	/**
+	 * Get filename
+	 *
+	 * @return string
+	 */
+	public function getFilename()
+	{
+		return $this->imageName;
+	}
+
+	/**
+	 * @return UploadedFile
+	 */
+	public function getFile()
+	{
+		return $this->file;
+	}
+
+	/**
+	 * Sets file.
+	 *
+	 * @param UploadedFile $file
+	 */
+	public function setFile(UploadedFile $file = null)
+	{
+		$this->file = $file;
+		// check if we have an old image path
+		if (isset($this->imageFileName)) {
+			// store the old name to delete after the update
+			$this->temp = $this->imageFileName;
+			$this->imageFileName = null;
+		} else {
+			$this->imageFileName = 'initial';
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTemp()
+	{
+		return $this->temp;
+	}
+
+	/**
+	 * @param $temp
+	 * @internal param $file
+	 */
+	public function setTemp($temp)
+	{
+		$this->temp = $temp;
+	}
+
+    /**
+     * Set imageName
+     *
+     * @param string $imageName
+     * @return User
+     */
+    public function setImageName($imageName)
+    {
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    /**
+     * Get imageName
+     *
+     * @return string 
+     */
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
+	/**
+	 * @return File
+	 */
+	public function getImageFile()
+	{
+		return $this->imageFile;
+	}
 }

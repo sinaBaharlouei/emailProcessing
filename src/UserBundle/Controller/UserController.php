@@ -56,6 +56,7 @@ class UserController extends BaseController
 			'status' => $status,
 			'type' => $type,
 		);
+
 		$em = $this->getDoctrine()->getEntityManager();
 		$userModel = $em->getRepository('UserBundle:User');
 
@@ -88,6 +89,19 @@ class UserController extends BaseController
 		$user_password = $encoder->encodePassword($user, $user_list['plain_password']);
 		$user->setPassword($user_password);
 		$user->eraseCredentials();
+
+		if ( isset($_FILES['image'])) {
+
+			if ( is_uploaded_file($_FILES['image']['tmp_name'])) {
+
+				$picture_name = uniqid();
+				if (! move_uploaded_file($_FILES['image']['tmp_name'], $path = $this->get('kernel')->getRootDir() . '/../web' . "/users/pics/" . $picture_name . '.png'))
+				{
+					throw new \Exception("picture not moved successfully");
+				}
+				$user->setFilename($picture_name);
+			}
+		}
 
 		// $this->validate($user);
 		$em->persist($user);
