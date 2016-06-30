@@ -60,20 +60,36 @@
                 success : function (xml) {
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
-                        var isSpam = $(this).children("isSpam");
-                        if (isSpam==1){
-                            document.querySelectorAll('#emailLink').onclick=function(){
-                                confirm("This message is spam ,do you want to open it?");
-                            }
-                        }
+                        var myId = $(this).children("id").text();
                         // i know that there should be an id tag in xml but before that i need to pass varable $this as a parameter which is not posible
-                        var email='<a id="emailLink" href={{ path('profile_readHtml', { 'id': 'emailId' }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        var email='<a class="emailLink" id="'+ myId +'" href={{ path('profile_readHtml', { 'id': 'emailId' }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
                         email = email.replace('emailId', $(this).children("id").text());
 
                         email+='</div><div class="subject">'+$(this) .children("subject").text();
                         email+='</div><div class="text">'+$(this).children("text").text();
                         email+='</div><div class="date">'+$(this).children("date").text()+'</div></div>'+'</a>';
+
+
+                        var isSpam = $(this).children("spam").text();
+
                         $("#mails").append(email);
+                        if (isSpam==1){
+                            document.getElementById(myId).onclick=function(){
+
+                                var r =  confirm("This message is spam ,do you want to open it?");
+                                alert(r);
+                                if (r == true) {
+
+                                } else {
+                                        alert("hi");
+                                    window.location = "{{ path('profile_inbox') }}";
+                                }
+
+
+                            }
+                        }
+
+
                         if($(this).attr("read")!==undefined){//the email has been read
                             $("mails").children(":last").css('background-color','green');
                         }else if($(this).attr("spam")!==undefined){
@@ -107,7 +123,7 @@
                 success : function (xml) {
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
-                        var email='<a id="emailLink" href={{ path('profile_readHtml', { 'id': 'emailId' }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        var email='<a class="emailLink" href={{ path('profile_readHtml', { 'id': 'emailId' }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
                         email = email.replace('emailId', $(this).children("id").text());
                         email+='</div><div class="subject">'+$(this).children("subject").text();
                         email+='</div><div class="text">'+$(this).children("text").text();
@@ -151,7 +167,7 @@
                 success : function (xml) {
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
-                        var email='<a id="emailLink" href={{ path('profile_readHtml', { 'id': 'emailId' }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        var email='<a class="emailLink" href={{ path('profile_readHtml', { 'id': 'emailId' }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
                         email = email.replace('emailId', $(this).children("id").text());
                         email+='</div><div class="subject">'+$(this).children("subject").text();
                         email+='</div><div class="text">'+$(this).children("text").text();
@@ -190,7 +206,7 @@
 
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
-                        var email='<a id="emailLink" href={{ path('profile_readHtml', { 'id': 'emailId' }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        var email='<a class="emailLink" href={{ path('profile_readHtml', { 'id': 'emailId' }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
                         email = email.replace('emailId', $(this).children("id").text());
                         email+='</div><div class="subject">'+$(this).children("subject").text();
                         email+='</div><div class="text">'+$(this).children("text").text();
@@ -230,7 +246,7 @@
                 success : function (xml) {
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
-                        var email='<a id="emailLink" href={{ path('profile_readHtml', { 'id': 'emailId' }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        var email='<a class="emailLink" href={{ path('profile_readHtml', { 'id': 'emailId' }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
                         email = email.replace('emailId', $(this).children("id").text());
                         email+='</div><div class="subject">'+$(this).children("subject").text();
                         email+='</div><div class="text">'+$(this).children("text").text();
