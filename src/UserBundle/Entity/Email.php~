@@ -46,6 +46,11 @@ class Email implements \JsonSerializable
 	private $isRead;
 
 	/**
+	 * @ORM\Column(name="is_know", type="integer", nullable=false, options={"default": 0})
+	 */
+	private $isKnow;
+
+	/**
 	 * @ORM\Column(name="is_spam", type="integer", nullable=false)
 	 */
 	private $isSpam;
@@ -348,4 +353,27 @@ class Email implements \JsonSerializable
 	{
 		$this->url = $url;
 	}
+
+    /**
+     * Set isKnow
+     *
+     * @param integer $isKnow
+     * @return Email
+     */
+    public function setIsKnow($isKnow)
+    {
+        $this->isKnow = $isKnow;
+
+        return $this;
+    }
+
+    /**
+     * Get isKnow
+     *
+     * @return integer 
+     */
+    public function getIsKnow()
+    {
+        return $this->isKnow;
+    }
 }
