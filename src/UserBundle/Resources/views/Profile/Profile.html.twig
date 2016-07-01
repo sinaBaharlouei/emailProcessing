@@ -55,6 +55,9 @@
 
 </head>
 <body>
+{% if message %}
+    <p>{{ message }}</p>
+{% endif %}
 <a class="options" href={{ path('profile_users') }}>Add contacts</a> </br></br>
 <a  class="options" href={{ path('profile_inbox') }}>Inbox</a>
 <p>Last login time: {{ user.updatedAt|date('Y-m-d H:i:s') }}</p>
@@ -67,7 +70,7 @@
     <span>Email: </span>
     <span>e@gmail.com</span>!-->
 </div>
-<form id="registeration" style="margin-left: auto;margin-right: auto;">
+<form id="registeration"  method="post" action={{ path('profile_edit')}}  style="margin-left: auto;margin-right: auto;"   >
     <div style="width: 70%;height: 300px;margin-left: auto;margin-right: auto;">
         <div class="titles">
             <h5>First Name :</h5>
@@ -87,24 +90,7 @@
     </div>
 </form>
 <div id="contacts">
-    <!--<div class="person">
-        <img src=""><br>
-        <span>First Name: </span>
-        <span >hasan</span><br>
-        <span>Last Name: </span>
-        <span>hasani</span><br>
-        <span>Email: </span>
-        <span>hasan@e.ir</span><br>
-        </div>
-    <div class="person">
-        <img src=""><br>
-        <span>First Name: </span>
-        <span >hasan</span><br>
-        <span>Last Name: </span>
-        <span>hasani</span><br>
-        <span>Email: </span>
-        <span>hasan@e.ir</span><br>
-    </div>!-->
+
 </div>
 
 </body>

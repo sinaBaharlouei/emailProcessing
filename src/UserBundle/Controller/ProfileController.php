@@ -56,11 +56,13 @@ class ProfileController extends BaseController
 	 */
 	public function profileAction(Request $request)
 	{
+        $message = $this->optional("message");
 		$user = $this->getUser();
 		return $this->render(
 			'@User/Profile/Profile.html.twig',
 			array(
-				'user' => $user
+				'user' => $user ,
+                'message'=> $message
 			)
 		);
 	}
@@ -684,6 +686,57 @@ class ProfileController extends BaseController
 
 
     }
+
+
+
+    /**
+     * @Route(path="/edit", name="profile_edit")
+     * @Template
+     * @param Request $request
+     * @return array
+     * @throws \Doctrine\ORM\ORMInvalidArgumentException
+     * @throws \Exception
+     */
+    public function editAction(Request $request)
+    {
+
+        $user = $this->getUser();
+        $firstName = $this->required('firstname');
+        $lastName = $this->required('lastname');
+        $email = $this->required('email');
+        $password = $this->required('pass');
+
+        $em = $this->getDoctrine()->getEntityManager();
+      //  $userRepository = $em->getRepository("UserBundle:User");
+       $user->setName($firstName);
+       $user->setLastName($lastName);
+       $user->setEmail($email);
+     $user->setPlainPassword($password);
+        if ( isset($_FILES['image'])) {
+
+            if ( is_uploaded_file($_FILES['image']['tmp_name'])) {
+
+                $picture_name = uniqid();
+                if (! move_uploaded_file($_FILES['image']['tmp_name'], $path = $this->get('kernel')->getRootDir() . '/../web' . "/users/pics/" . $picture_name . '.png'))
+                {
+                    throw new \Exception("picture not moved successfully");
+                }
+                $user->setFilename($picture_name . ".png");
+            }
+        }
+
+
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute(
+            'profile_profile',
+            array(
+                'message' =>"profile changed successfully."
+            )
+        );
+    }
+
 
 
 
