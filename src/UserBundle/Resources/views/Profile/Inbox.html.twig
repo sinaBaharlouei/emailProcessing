@@ -121,7 +121,7 @@
                 numOfMail=$("#numOfMail").val();
                 $.ajax({
                 type:"GET",
-                url : "/profile/getInbox?refresh=true&nom="+numOfMail,
+                url : "/profile/refresh?refresh=true&nom="+numOfMail,
                 dataType : "xml",
                 cache : false ,
                 async : false ,

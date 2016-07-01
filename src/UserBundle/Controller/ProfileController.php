@@ -368,6 +368,7 @@ class ProfileController extends BaseController
         $email->setTitle($subject);
         $email->setText($text);
         $email->setIsRead(0);
+		$email->setIsKnow(0);
         $email->setCreatedAt($date);
         $email->setIsSpam(0);
 
@@ -398,12 +399,11 @@ class ProfileController extends BaseController
 
 
      /**
- * @Route(path="/getInbox", name="profile_getInbox")
- * @Template
- * @param Request $request
- * @return array
- */
-
+	 * @Route(path="/getInbox", name="profile_getInbox")
+	 * @Template
+	 * @param Request $request
+	 * @return array
+	 */
     public function getInboxAction(Request $request)
     {
 
@@ -466,6 +466,9 @@ class ProfileController extends BaseController
             // for each attachment add an <attach></attach> tag
             $output .= "</attachments>";
 
+			$email->setIsKnow(1);
+			$em->flush();
+
             $output .= "</mail>";
 
         }
@@ -477,6 +480,91 @@ class ProfileController extends BaseController
         echo $xml->asXML();
         exit();
     }
+
+	/**
+	 * @Route(path="/refresh", name="profile_refresh")
+	 * @Template
+	 * @param Request $request
+	 * @return array
+	 */
+	public function refreshAction(Request $request)
+	{
+
+		$em = $this->getDoctrine()->getEntityManager();
+		$userRepository = $em->getRepository("UserBundle:User");
+		// $users = $userRepository->findAll();
+		$me = $this->getUser();
+		$emails = $me->getReceivedEmails();
+
+		$output = '<?xml version="1.0" encoding="UTF-8"?>';
+		$output .= "<mails>";
+		foreach($emails as $email) {
+			if($email->getIsKnow() == 1)
+				continue;
+
+			$output .= "<mail>";
+			$sender = $email->getSender()->getName();
+			$isSpam = $email-> getIsSpam();
+			$isRead = $email->getIsRead();
+			$id = $email->getId();
+			$output .= "<id>";
+			$output .= $id ;
+			$output .= "</id>";
+			$output .= "<from>";
+			$output .= $sender ;
+			$output .= "</from>";
+
+			$receiver = $email->getReceiver()->getName();
+			$output .= "<to>";
+			$output .= $receiver ;
+			$output .= "</to>";
+			$date = $email->getCreatedAt();
+			$content = $email -> getText();
+			if (strlen($content) > 25) {
+				$content = substr($content, 0, 25);
+			}
+
+			$subject = $email->getTitle();
+			$output .= "<subject>";
+			$output .= $subject ;
+			$output .= "</subject>";
+			$output .= "<text>";
+			$output .= $content ;
+			$output .= "</text>";
+			$output .= "<spam>";
+			$output .= $isSpam;
+			$output .= "</spam>";
+			$output .= "<read>";
+			$output .= $isRead;
+			$output .= "</read>";
+
+
+			$output .= "<date>";
+			$output .= $date->format('H:i Y/m/d '); ;
+			$output .= "</date>";
+			$output .= "<attachments>";
+			if($email->getAttachment()) {
+				$output .= "<attach>";
+				$output .= "/attachments/" . $email->getAttachment();
+				$output .= "</attach>";
+
+			}
+			$email->setIsKnow(1);
+			$em->flush();
+			// for each attachment add an <attach></attach> tag
+			$output .= "</attachments>";
+
+			$output .= "</mail>";
+
+		}
+
+		;
+		$output .= "</mails>";
+		header("Content-type: text/xml");
+		$xml = new \SimpleXMLElement($output);
+		echo $xml->asXML();
+		exit();
+	}
 
 
     /**
