@@ -337,6 +337,9 @@ class ProfileController extends BaseController
         $receiver_email = $this->required('to');
         $em = $this->getDoctrine()->getEntityManager();
         $userRepository = $em->getRepository("UserBundle:User");
+        $emailRepository = $em->getRepository("UserBundle:Email");
+        $sentemails = $emailRepository->findBySender($sender);
+
         $receiver = $userRepository->findOneBy
 		(
 			array('email' => $receiver_email)
@@ -385,7 +388,39 @@ class ProfileController extends BaseController
         $email->setIsRead(0);
 		$email->setIsKnow(0);
         $email->setCreatedAt($date);
-        $email->setIsSpam(0);
+        $spamPossibility =0;
+        foreach($sentemails as $previousEmail){
+            if($previousEmail->gettext()==$text){
+                $spamPossibility ++ ;
+            }
+        }
+        if (strpos($text, 'As seen on') !== false) {
+           $spamPossibility ++ ;
+        }
+        if (strpos($text, 'buy') !== false) {
+            $spamPossibility ++ ;
+        }
+        if (strpos($text, 'shopper') !== false) {
+            $spamPossibility ++ ;
+        }
+        if (strpos($text, 'Only $') !== false) {
+            $spamPossibility ++ ; }
+       if(strpos($text, 'product') !== false) {
+                $spamPossibility ++ ;
+            }
+        if(strpos($text, 'sale') !== false) {
+            $spamPossibility ++ ;
+        }
+
+
+        echo($spamPossibility);
+        if ($spamPossibility >2){
+            $email->setIsSpam(1);
+        }
+
+        else
+            $email->setIsSpam(0);
+
 
 		if ( isset($_FILES['attachment'])) {
 

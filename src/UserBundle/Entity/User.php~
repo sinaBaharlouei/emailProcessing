@@ -127,6 +127,7 @@ class User implements AdvancedUserInterface, \JsonSerializable, HasAttachmentEnt
 	/**
 	 * @Assert\File(maxSize="6000000")
 	 */
+
 	private $file;
 
 	/**
