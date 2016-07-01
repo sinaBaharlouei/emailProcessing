@@ -211,6 +211,12 @@ class UserController extends BaseController
 	 * @Route(path="/target", name="user_target")
 	 */
 	public function targetAction() {
+		$user = $this->getUser();
+		if ($user) {
+			$em = $this->getDoctrine()->getEntityManager();
+			$user->setUpdatedAt(new \DateTime());
+			$em->flush();
+		}
 		return $this->redirectToRoute('profile_inbox');
 	}
 }
