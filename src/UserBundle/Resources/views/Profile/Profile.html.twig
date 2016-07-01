@@ -57,6 +57,7 @@
 <body>
 <a class="options" href={{ path('profile_users') }}>Add contacts</a> </br></br>
 <a  class="options" href={{ path('profile_inbox') }}>Inbox</a>
+<p>Last login time: {{ user.updatedAt|date('Y-m-d H:i:s') }}</p>
 <div id="data">
     <!--<img src=""><br>
     <span>First Name: </span>
