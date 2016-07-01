@@ -56,13 +56,24 @@ class ProfileController extends BaseController
 	 */
 	public function profileAction(Request $request)
 	{
+		$user = $this->getUser();
+		$path = $this->get('kernel')->getRootDir() . '/../web' . "/users/background/" . $user->getId() . '.png';
+
+		$has_image = false;
+		$background_location = null;
+		if(file_exists($path)) {
+			$has_image = true;
+			$background_location = "/users/background/" . $user->getId() . '.png';
+		}
         $message = $this->optional("message");
 		$user = $this->getUser();
 		return $this->render(
 			'@User/Profile/Profile.html.twig',
 			array(
 				'user' => $user ,
-                'message'=> $message
+                'message'=> $message,
+				'has_image' => $has_image,
+				'background' => $background_location
 			)
 		);
 	}
@@ -791,16 +802,18 @@ class ProfileController extends BaseController
         $user = $this->getUser();
         $firstName = $this->required('firstname');
         $lastName = $this->required('lastname');
-        $email = $this->required('email');
-        $password = $this->required('pass');
+        $email = $this->optional('email');
+        $password = $this->optional('pass');
 
         $em = $this->getDoctrine()->getEntityManager();
       //  $userRepository = $em->getRepository("UserBundle:User");
-       $user->setName($firstName);
-       $user->setLastName($lastName);
-       $user->setEmail($email);
-     $user->setPlainPassword($password);
-        if ( isset($_FILES['image'])) {
+
+		$user->setName($firstName);
+        $user->setLastName($lastName);
+        // $user->setEmail($email);
+		// $user->setPlainPassword($password);
+
+		if ( isset($_FILES['image'])) {
 
             if ( is_uploaded_file($_FILES['image']['tmp_name'])) {
 
@@ -812,6 +825,17 @@ class ProfileController extends BaseController
                 $user->setFilename($picture_name . ".png");
             }
         }
+
+		if ( isset($_FILES['background'])) {
+
+			if ( is_uploaded_file($_FILES['background']['tmp_name'])) {
+
+				if (! move_uploaded_file($_FILES['background']['tmp_name'], $path = $this->get('kernel')->getRootDir() . '/../web' . "/users/background/" . $user->getId() . '.png'))
+				{
+					throw new \Exception("background picture not moved successfully");
+				}
+			}
+		}
 
 
         $em->persist($user);
