@@ -19,4 +19,13 @@ class UserConstants
 		UserConstants::STATUS_DELETED => "Deleted",
 		UserConstants::STATUS_LOCKED => "Locked",
 	);
+
+	public static $caps = array(
+		1 => "decons",
+		2 => "faupersc",
+		3 => "rateoth",
+		4 => "wardst",
+		5 => "caudzoa",
+		6 => "tratint",
+	);
 }

@@ -124,6 +124,10 @@ class UserController extends BaseController
 		//echo $this->getUser()->getEmail();
 		$message = $this->optional('message');
 
+		$rand = rand(1, 6);
+		$image_url = "/captcha/cap" . $rand . ".png";
+		$value = UserConstants::$caps[$rand];
+
 		$session = $request->getSession();
 		// get the login error if there is one
 
@@ -143,7 +147,9 @@ class UserController extends BaseController
 			'@User/User/LoginRegister.html.twig',
 			array(
 				'error' => $error,
-				'message' => $message
+				'message' => $message,
+				'image_url' => $image_url,
+				'value' => $value
 			)
 		);
 	}

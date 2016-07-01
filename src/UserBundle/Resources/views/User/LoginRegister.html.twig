@@ -29,16 +29,20 @@
             </form>
         </div>
         <div class="forms">
-            <form id="login" method="post" action={{ path('user_login_check') }}>
+            <form id="login" method="post" onsubmit="return checkCaptcha()" action={{ path('user_login_check') }}>
                 <div class="titles">
                     <h5>Email :</h5>
                     <h5>Password :</h5>
-                    <input type="checkbox" type="checkbox" tabindex="3" class="" name="_remember_me" id="remember"> <h6>Remember me</h6>
+                    <input type="checkbox" tabindex="3" class="" name="_remember_me" id="remember"> <h6>Remember me</h6>
                     <input type="submit" value="Login" name="login-submit" id="login-submit">
                 </div>
                 <div class="inputs">
                     <input type="email" id="username" name="_username">
                     <input type="password" id="password" name="_password">
+
+                    <img  src="{{ image_url }}" alt="captcha"/>
+                    <input id="cap_entered" type="text" name="captcha"/>
+                    <input id="cap_value" type="hidden" name="captcha_value" value="{{ value }}" />
                 </div>
             </form>
         </div>
@@ -47,3 +51,19 @@
 </html>
 
  <script type="text/javascript" src={{ asset('js/jquery-1.12.0.js') }}></script>
+<script type="text/javascript">
+    function checkCaptcha() {
+        var val1 = document.getElementById("cap_entered");
+        var val2 = document.getElementById("cap_value");
+
+        val1 = val1.value;
+        val2 = val2.value;
+
+        if (val1 == val2)
+            return true;
+        else {
+            alert("Captcha is wrong");
+            return false;
+        }
+    }
+</script>
