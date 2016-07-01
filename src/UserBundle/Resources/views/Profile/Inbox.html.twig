@@ -128,18 +128,47 @@
                 success : function (xml) {
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
-                        var email='<a class="emailLink" href={{ path('profile_readHtml', { 'id': 'emailId' }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+                        var myId = $(this).children("id").text();
+                        var email_div = document.createElement("div");
+
+                        // i know that there should be an id tag in xml but before that i need to pass varable $this as a parameter which is not posible
+                        var email='<a class="emailLink" id="'+ myId +'" href="#">'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
                         email = email.replace('emailId', $(this).children("id").text());
-                        email+='</div><div class="subject">'+$(this).children("subject").text();
+
+                        email+='</div><div class="subject">'+$(this) .children("subject").text();
                         email+='</div><div class="text">'+$(this).children("text").text();
-                        email+='</div><div class="date">'+$(this).children("date").text()+'</div></div>';
+                        email+='</div><div class="date">'+$(this).children("date").text()+'</div></div>'+'</a>';
+
+
+                        var isSpam = $(this).children("spam").text();
+                        var isRead = $(this).children("read").text();
+
                         $("#mails").append(email);
-                        if($(this).attr("read")!==undefined){//the email has been read
-                            $("mails").children(":last").css('background-color','green');
-                        }else if($(this).attr("spam")!==undefined){
-                            $("mails").children(":last").css('background-color','yellow');
-                        }else{
-                            $("mails").children(":last").css('background-color','white');
+                        var link = document.getElementById(myId);
+                        if (isSpam==1){
+                            link.style.color = "yellow";
+                            document.getElementById(myId).onclick=function(){
+
+                                var r =  confirm("This message is spam ,do you want to open it?");
+                                if (r == true) {
+                                    window.location = "/profile/readHtml?id=" + myId ;
+                                } else {
+                                    window.location = "{{ path('profile_inbox') }}";
+                                }
+
+
+                            }
+                        }
+                        else {
+                            link.href = "/profile/readHtml?id=" + myId ;
+                        }
+
+                        if (isRead == 1) {
+                            link.style.color = "green";
+                        }
+
+                        else if (!isSpam) {
+                            link.style.color = "white";
                         }
                     });
                     $(document).on('click','.eachMail',function(){
@@ -172,19 +201,51 @@
                 success : function (xml) {
                     var all=$(xml).children('mails').children("mail");
                     all.each(function(){
-                        var email='<a class="emailLink" href={{ path('profile_readHtml', { 'id': 'emailId' }) }} >'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
+
+                        var myId = $(this).children("id").text();
+                        var email_div = document.createElement("div");
+
+                        // i know that there should be an id tag in xml but before that i need to pass varable $this as a parameter which is not posible
+                        var email='<a class="emailLink" id="'+ myId +'" href="#">'+'<div class="eachMail">'+'<div class="from">'+$(this).children("from").text();
                         email = email.replace('emailId', $(this).children("id").text());
-                        email+='</div><div class="subject">'+$(this).children("subject").text();
+
+                        email+='</div><div class="subject">'+$(this) .children("subject").text();
                         email+='</div><div class="text">'+$(this).children("text").text();
-                        email+='</div><div class="date">'+$(this).children("date").text()+'</div></div>';
+                        email+='</div><div class="date">'+$(this).children("date").text()+'</div></div>'+'</a>';
+
+
+                        var isSpam = $(this).children("spam").text();
+                        var isRead = $(this).children("read").text();
+
                         $("#mails").append(email);
-                        if($(this).attr("read")!==undefined){//the email has been read
-                            $("mails").children(":last").css('background-color','green');
-                        }else if($(this).attr("spam")!==undefined){
-                            $("mails").children(":last").css('background-color','yellow');
-                        }else{
-                            $("mails").children(":last").css('background-color','white');
+                        var link = document.getElementById(myId);
+                        if (isSpam==1){
+                            link.style.color = "yellow";
+                            document.getElementById(myId).onclick=function(){
+
+                                var r =  confirm("This message is spam ,do you want to open it?");
+                                if (r == true) {
+                                    window.location = "/profile/readHtml?id=" + myId ;
+                                } else {
+                                    window.location = "{{ path('profile_inbox') }}";
+                                }
+
+
+                            }
                         }
+                        else {
+                            link.href = "/profile/readHtml?id=" + myId ;
+                        }
+
+                        if (isRead == 1) {
+                            link.style.color = "green";
+                        }
+
+                        else if (!isSpam) {
+                            link.style.color = "white";
+                        }
+
+
                     });
                     $(document).on('click','.eachMail',function(){
                       //  window.location="../server.php?email=true & from="+$(this).children(".from").text()+"& date="+$(this).children(".date").text();
