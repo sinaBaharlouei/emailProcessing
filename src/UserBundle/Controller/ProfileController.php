@@ -800,16 +800,19 @@ class ProfileController extends BaseController
     {
 
         $user = $this->getUser();
-        $firstName = $this->required('firstname');
-        $lastName = $this->required('lastname');
+        $firstName = $this->optional('firstname');
+        $lastName = $this->optional('lastname');
         $email = $this->optional('email');
         $password = $this->optional('pass');
 
         $em = $this->getDoctrine()->getEntityManager();
       //  $userRepository = $em->getRepository("UserBundle:User");
 
-		$user->setName($firstName);
-        $user->setLastName($lastName);
+		if (!empty($firstName))
+			$user->setName($firstName);
+
+		if (!empty($lastName))
+        	$user->setLastName($lastName);
         // $user->setEmail($email);
 		// $user->setPlainPassword($password);
 
