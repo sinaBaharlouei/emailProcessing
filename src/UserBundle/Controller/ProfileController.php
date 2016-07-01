@@ -57,6 +57,9 @@ class ProfileController extends BaseController
 	public function profileAction(Request $request)
 	{
 		$user = $this->getUser();
+		$em = $this->getDoctrine()->getEntityManager();
+		$contactRep = $em->getRepository("UserBundle:Contact");
+
 		$path = $this->get('kernel')->getRootDir() . '/../web' . "/users/background/" . $user->getId() . '.png';
 
 		$has_image = false;
@@ -65,6 +68,14 @@ class ProfileController extends BaseController
 			$has_image = true;
 			$background_location = "/users/background/" . $user->getId() . '.png';
 		}
+
+		$pending_contacts = $contactRep->findBy(
+			array(
+				'contact2' => $user,
+				'isAccept' => 0
+			)
+		);
+
         $message = $this->optional("message");
 		$user = $this->getUser();
 		return $this->render(
@@ -73,7 +84,8 @@ class ProfileController extends BaseController
 				'user' => $user ,
                 'message'=> $message,
 				'has_image' => $has_image,
-				'background' => $background_location
+				'background' => $background_location,
+				'pending_contacts' => $pending_contacts
 			)
 		);
 	}
@@ -342,27 +354,19 @@ class ProfileController extends BaseController
 
         foreach ($hercontacts as $user) {
 
-            if ($user->getContact2()->getId() == $receiver->getId()) {
-
+            if ($user->getContact2()->getId() == $receiver->getId() && $user->getIsAccept()) {
                 $is_contact = true;
                 continue;
             }
-               /* if ($is_contact==true)
-                continue;*/
-
-
         }
+
         if ($is_contact==false) {
-
-
-
             return $this->redirectToRoute(
                 'profile_inbox',
                 array(
                     'message' =>  "you can only send message to your contacts."
                 )
             );
-
         }
 
         $date = new \DateTime() ;
@@ -853,15 +857,39 @@ class ProfileController extends BaseController
     }
 
 
+	/**
+	 * @Route(path="/accept", name="profile_accept")
+	 * @Template
+	 * @param Request $request
+	 * @return array
+	 * @throws \Doctrine\ORM\ORMInvalidArgumentException
+	 * @throws \Exception
+	 */
+	public function acceptAction(Request $request)
+	{
+		$user = $this->getUser();
+		$pending_user_id = $this->required('id');
 
+		$em = $this->getDoctrine()->getEntityManager();
+		$userRepository = $em->getRepository("UserBundle:User");
+		$contactRepository = $em->getRepository("UserBundle:Contact");
+		$pending_user = $userRepository->find($pending_user_id);
 
+		$contact = $contactRepository->findOneBy(
+			array(
+				'contact1' => $pending_user,
+				'contact2' => $user
+			)
+		);
+		$contact->setIsAccept(1);
+		$em->flush();
 
-
-
-
-
-
-
-
+		return $this->redirectToRoute(
+			'profile_profile',
+			array(
+				'message' =>"contact is accepted"
+			)
+		);
+	}
 
 }

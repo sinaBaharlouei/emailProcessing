@@ -99,9 +99,30 @@
         <input type="submit" value="Save Changes" style="background-color: #97d9ff">
     </div>
 </form>
-<div id="contacts">
+
+<div id="contacts" style="display: block">
 
 </div>
 
+
+{% if pending_contacts %}
+<div id="pending_contacts" style="display: block; clear: left">
+<br>
+<br>
+    <h2>Pending contacts</h2>
+{% for contact in pending_contacts %}
+    <div class="person">
+        <img src="/users/pics/{{ contact.contact1.imageName }}"><br>
+        <span>First Name: </span>
+        <span >{{ contact.contact1.name }}</span><br>
+        <span>Last Name: </span>
+        <span>{{ contact.contact1.lastName }}</span><br>
+        <span>Email: </span>
+        <span class="email">{{ contact.contact1.email }}</span><br>
+        <a type="button" class="add" href="{{ path('profile_accept', {'id' : contact.contact1.id}) }}">Accept</a>
+    </div>
+{% endfor %}
+</div>
+{% endif %}
 </body>
 </html>
