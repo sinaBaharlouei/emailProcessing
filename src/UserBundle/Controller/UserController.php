@@ -132,7 +132,7 @@ class UserController extends BaseController
 				SecurityContextInterface::AUTHENTICATION_ERROR
 			);
 		} elseif (null !== $session && $session->has(SecurityContextInterface::AUTHENTICATION_ERROR)) {
-               $message ="invalid username or password.";
+               $message ="i";
 			$error = $session->get(SecurityContextInterface::AUTHENTICATION_ERROR);
 
 			$session->remove(SecurityContextInterface::AUTHENTICATION_ERROR);
