@@ -77,7 +77,7 @@ class Email implements \JsonSerializable
 	 */
 	protected $attachment = NULL;
 
-	protected $imageURL;
+	protected $url;
 
 	/**
 	 * (PHP 5 &gt;= 5.4.0)<br/>
@@ -330,4 +330,22 @@ class Email implements \JsonSerializable
     {
         return $this->attachment;
     }
+
+	/**
+	 * Get Url
+	 * @return string
+	 */
+	public function getUrl()
+	{
+		return $this->url;
+	}
+
+	/**
+	 * Set Url
+	 * @param $url
+	 */
+	public function setUrl($url)
+	{
+		$this->url = $url;
+	}
 }

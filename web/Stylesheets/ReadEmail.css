@@ -36,3 +36,15 @@ body {
 #test p {
     display: block;
 }
+#inbox {
+    text-decoration: none;
+    margin-left: 20%;
+    position: absolute;
+    margin-top: 3%;
+}
+#inbox:hover {
+    font-weight: 600;
+    cursor: pointer;
+
+
+}
